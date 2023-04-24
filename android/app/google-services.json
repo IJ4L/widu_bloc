@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "173570588450",
+    "project_id": "widyaedu-a1abd",
+    "storage_bucket": "widyaedu-a1abd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173570588450:android:2ff6ebb008ad7b51596f7b",
+        "android_client_info": {
+          "package_name": "com.example.widyaedu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173570588450-ps17t9sfg3sqqg2er2fpkmcutes2hti4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.widyaedu",
+            "certificate_hash": "6faa6f4d68d476e9ed458750be4163439ec97064"
+          }
+        },
+        {
+          "client_id": "173570588450-0q4ced4hedn8ejbkk1mlltsl395reilk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFQQgqXW6MfU9H_ibrjYQa_xKWlgSixdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173570588450-0q4ced4hedn8ejbkk1mlltsl395reilk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
