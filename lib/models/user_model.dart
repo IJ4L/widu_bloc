@@ -2,8 +2,6 @@ import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
-String userModelToJson(UserModel data) => json.encode(data.toJson());
-
 class UserModel {
   UserModel({
     required this.iduser,
@@ -38,16 +36,4 @@ class UserModel {
         userGender: json["user_gender"],
         userStatus: json["user_status"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "iduser": iduser,
-        "user_name": userName,
-        "user_email": userEmail,
-        "user_foto": userFoto,
-        "user_asal_sekolah": userAsalSekolah,
-        "kelas": kelas,
-        "date_create": dateCreate.toIso8601String(),
-        "user_gender": userGender,
-        "user_status": userStatus,
-      };
 }

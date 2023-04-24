@@ -7,8 +7,6 @@ import 'dart:convert';
 BannerModel bannerModelFromJson(String str) =>
     BannerModel.fromJson(json.decode(str));
 
-String bannerModelToJson(BannerModel data) => json.encode(data.toJson());
-
 class BannerModel {
   BannerModel({
     required this.status,
@@ -25,12 +23,6 @@ class BannerModel {
         message: json["message"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
 }
 
 class Datum {
@@ -55,12 +47,4 @@ class Datum {
         eventImage: json["event_image"],
         eventUrl: json["event_url"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "event_id": eventId,
-        "event_title": eventTitle,
-        "event_description": eventDescription,
-        "event_image": eventImage,
-        "event_url": eventUrl,
-      };
 }
