@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/services/api_service.dart';
 import 'package:widyaedu/ui/pages/all_mapel_page.dart';
 import 'package:widyaedu/ui/pages/home_page.dart';
 import 'package:widyaedu/ui/pages/login_page.dart';
@@ -10,10 +11,18 @@ import 'package:widyaedu/ui/pages/pembahasan_soal_page.dart';
 import 'package:widyaedu/ui/pages/profile_page.dart';
 import 'package:widyaedu/ui/pages/register_page.dart';
 import 'package:widyaedu/ui/pages/soal_page.dart';
+import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  ApiServices(client: http.Client()).register(
+    'tesbyone@gmail.com',
+    'kiritod',
+    'Sman 7 Managarai',
+    'VII - A',
+    'Perempaun',
+  );
   runApp(const MyApp());
 }
 

@@ -28,18 +28,18 @@ class ApiServices {
   }
 
   Future<String> register(String email, String namaLengkap, String namaSekolah,
-      String kelas, String gender, String foto) async {
+      String kelas, String gender) async {
     try {
       final response = await client.post(
         Uri.parse('https://edspert.widyaedu.com/users/registrasi'),
-        body: jsonEncode({
+        body: {
           'email': email,
           'nama_lengkap': namaLengkap,
           'gender': gender,
           'kelas': kelas,
           'nama_sekolah': namaSekolah,
           'foto': '',
-        }),
+        },
         headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
       );
       if (response.statusCode == 200) {
