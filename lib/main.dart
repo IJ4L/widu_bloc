@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:widyaedu/services/banner_service.dart';
+import 'package:widyaedu/services/latihan_soal_service.dart';
 import 'package:widyaedu/ui/pages/all_mapel_page.dart';
 import 'package:widyaedu/ui/pages/home_page.dart';
 import 'package:widyaedu/ui/pages/login_page.dart';
@@ -17,7 +17,8 @@ import 'package:http/http.dart' as http;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  BannerService(client: http.Client()).getAllBanner();
+  LatihanSoalService(client: http.Client())
+      .getAllMapel('alitopan@widyaedu.com');
   runApp(const MyApp());
 }
 
