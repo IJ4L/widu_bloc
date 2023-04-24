@@ -18,7 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   LatihanSoalService(client: http.Client())
-      .getAllMapel('alitopan@widyaedu.com');
+      .getAllSoal('28', 'tesbyone@gmail.com');
   runApp(const MyApp());
 }
 
