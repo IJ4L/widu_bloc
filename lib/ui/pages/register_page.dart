@@ -33,7 +33,8 @@ class RegisterPage extends StatelessWidget {
               child: Text(
                 'Jenis Kelamin',
                 style:
-                    blackTextStyle.copyWith(fontSize: 20, fontWeight: regular),
+                    blackTextStyle.copyWith(fontSize: 18, fontWeight: regular),
+                textScaleFactor: 1,
               ),
             ),
             const SizedBox(height: 8.0),
@@ -43,33 +44,17 @@ class RegisterPage extends StatelessWidget {
                   padding:
                       EdgeInsets.only(left: 37.w, right: 37.w, bottom: 25.h),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CostumeButton(
+                      ButtonGender(
+                        genderBloc: genderBloc,
                         title: 'Laki-Laki',
-                        height: 52,
-                        width: 152,
-                        radius: 10,
-                        color: state == 'Laki-Laki' ? kSecondColor : kGreyColor,
-                        colorTitle: kBlackColor,
-                        blurRadius: 0,
-                        spreadRadius: 0,
-                        offset: const Offset(0, 5),
-                        opacity: 0.1,
-                        ontap: () => genderBloc.add(SelectLakiLakiEvent()),
+                        genderEvent: SelectLakiLakiEvent(),
                       ),
-                      const Spacer(),
-                      CostumeButton(
+                      ButtonGender(
+                        genderBloc: genderBloc,
                         title: 'Perempuan',
-                        height: 52,
-                        width: 152,
-                        radius: 10,
-                        color: state == 'Perempuan' ? kSecondColor : kGreyColor,
-                        colorTitle: kBlackColor,
-                        blurRadius: 1,
-                        spreadRadius: 0,
-                        offset: const Offset(0, 5),
-                        opacity: 0.1,
-                        ontap: () => genderBloc.add(SelectPerempuanEvent()),
+                        genderEvent: SelectPerempuanEvent(),
                       ),
                     ],
                   ),
@@ -78,22 +63,54 @@ class RegisterPage extends StatelessWidget {
             ),
             CostumeTexfield(title: 'Kelas', controller: kelas),
             CostumeTexfield(title: 'Nama Sekolah', controller: namaSekolah),
+            SizedBox(height: 10.h),
             Center(
               child: CostumeButton(
                 title: 'Daftar',
-                height: 45,
-                width: 127,
+                height: 45.h,
+                width: 127.w,
                 radius: 10,
                 color: kSecondColor,
                 colorTitle: kWhiteColor,
                 blurRadius: 1,
                 spreadRadius: 1,
+                fontWeight: bold,
                 ontap: () {},
               ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class ButtonGender extends StatelessWidget {
+  const ButtonGender({
+    super.key,
+    required this.genderBloc,
+    required this.title,
+    required this.genderEvent,
+  });
+
+  final String title;
+  final GenderBloc genderBloc;
+  final GenderEvent genderEvent;
+
+  @override
+  Widget build(BuildContext context) {
+    return CostumeButton(
+      title: title,
+      height: 45.h,
+      width: 132.w,
+      radius: 10,
+      color: genderBloc.state == title ? kSecondColor : kGreyColor,
+      colorTitle: kBlackColor,
+      blurRadius: 0,
+      spreadRadius: 0,
+      offset: const Offset(0, 5),
+      opacity: 0.1,
+      ontap: () => genderBloc.add(genderEvent),
     );
   }
 }

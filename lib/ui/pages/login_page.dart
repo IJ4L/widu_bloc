@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/shared/theme.dart';
 
+import '../../services/auth_service.dart';
 import '../widgets/costume_button.dart';
+
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -41,7 +44,7 @@ class LoginPage extends StatelessWidget {
           CostumeButton(
             title: 'Login With Google',
             fontWeight: bold,
-            ontap: () => Navigator.pushReplacementNamed(context, '/home'),
+            ontap: () => AuthServices(client: http.Client()).loginUser(),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 50.h),

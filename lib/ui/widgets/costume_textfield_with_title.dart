@@ -25,7 +25,7 @@ class CostumeTexfield extends StatelessWidget {
           Text(
             title,
             style: blackTextStyle.copyWith(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: regular,
             ),
             textScaleFactor: 1,
@@ -49,7 +49,7 @@ class CostumeTexfield extends StatelessWidget {
               controller: controller,
               cursorColor: kBlackColor,
               style: blackTextStyle.copyWith(
-                fontSize: 12.sp,
+                fontSize: 16.sp,
                 decoration: decoration,
               ),
               decoration: InputDecoration(
