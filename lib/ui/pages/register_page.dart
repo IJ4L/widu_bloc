@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/gender_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 import 'package:widyaedu/ui/widgets/costume_appbar.dart';
 import 'package:widyaedu/ui/widgets/costume_button.dart';
@@ -11,6 +13,12 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController email = TextEditingController();
+    final TextEditingController namaLengkap = TextEditingController();
+    final TextEditingController kelas = TextEditingController();
+    final TextEditingController namaSekolah = TextEditingController();
+
+    final GenderBloc genderBloc = context.read<GenderBloc>();
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -18,55 +26,58 @@ class RegisterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const CostumeAppbar(title: 'Registrasi'),
-            const CostumeTexfield(title: 'Email'),
-            const CostumeTexfield(title: 'Nama Lengkap'),
+            CostumeTexfield(title: 'Email', controller: email),
+            CostumeTexfield(title: 'Nama Lengkap', controller: namaLengkap),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 37.w),
               child: Text(
                 'Jenis Kelamin',
-                style: blackTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: regular,
-                ),
+                style:
+                    blackTextStyle.copyWith(fontSize: 20, fontWeight: regular),
               ),
             ),
             const SizedBox(height: 8.0),
-            Padding(
-              padding: EdgeInsets.only(left: 37.w, right: 37.w, bottom: 25.h),
-              child: Row(
-                children: [
-                  CostumeButton(
-                    title: 'Laki-Laki',
-                    height: 52,
-                    width: 152,
-                    radius: 10,
-                    color: kGreyColor,
-                    colorTitle: kBlackColor,
-                    blurRadius: 0,
-                    spreadRadius: 0,
-                    offset: const Offset(0, 5),
-                    opacity: 0.1,
-                    ontap: () {},
+            BlocBuilder<GenderBloc, String>(
+              builder: (context, state) {
+                return Padding(
+                  padding:
+                      EdgeInsets.only(left: 37.w, right: 37.w, bottom: 25.h),
+                  child: Row(
+                    children: [
+                      CostumeButton(
+                        title: 'Laki-Laki',
+                        height: 52,
+                        width: 152,
+                        radius: 10,
+                        color: state == 'Laki-Laki' ? kSecondColor : kGreyColor,
+                        colorTitle: kBlackColor,
+                        blurRadius: 0,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 5),
+                        opacity: 0.1,
+                        ontap: () => genderBloc.add(SelectLakiLakiEvent()),
+                      ),
+                      const Spacer(),
+                      CostumeButton(
+                        title: 'Perempuan',
+                        height: 52,
+                        width: 152,
+                        radius: 10,
+                        color: state == 'Perempuan' ? kSecondColor : kGreyColor,
+                        colorTitle: kBlackColor,
+                        blurRadius: 1,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 5),
+                        opacity: 0.1,
+                        ontap: () => genderBloc.add(SelectPerempuanEvent()),
+                      ),
+                    ],
                   ),
-                  const Spacer(),
-                  CostumeButton(
-                    title: 'Perempuan',
-                    height: 52,
-                    width: 152,
-                    radius: 10,
-                    color: kGreyColor,
-                    colorTitle: kBlackColor,
-                    blurRadius: 1,
-                    spreadRadius: 0,
-                    offset: const Offset(0, 5),
-                    opacity: 0.1,
-                    ontap: () {},
-                  ),
-                ],
-              ),
+                );
+              },
             ),
-            const CostumeTexfield(title: 'Kelas'),
-            const CostumeTexfield(title: 'Nama Sekolah'),
+            CostumeTexfield(title: 'Kelas', controller: kelas),
+            CostumeTexfield(title: 'Nama Sekolah', controller: namaSekolah),
             Center(
               child: CostumeButton(
                 title: 'Daftar',

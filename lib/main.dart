@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:widyaedu/services/latihan_soal_service.dart';
+import 'package:widyaedu/bloc/gender_bloc.dart';
 import 'package:widyaedu/ui/pages/all_mapel_page.dart';
 import 'package:widyaedu/ui/pages/home_page.dart';
 import 'package:widyaedu/ui/pages/login_page.dart';
@@ -12,13 +13,9 @@ import 'package:widyaedu/ui/pages/profile_page.dart';
 import 'package:widyaedu/ui/pages/register_page.dart';
 import 'package:widyaedu/ui/pages/soal_page.dart';
 
-import 'package:http/http.dart' as http;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  LatihanSoalService(client: http.Client())
-      .getDataSkor('28', 'tesbyone@gmail.com');
   runApp(const MyApp());
 }
 
@@ -31,21 +28,26 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Poppins'),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const LoginPage(),
-          '/register': (context) => const RegisterPage(),
-          '/home': (context) => const HomePage(),
-          '/profile': (context) => const ProfilePage(),
-          '/nilai': (context) => const NilaiPage(),
-          '/all-mapel': (context) => const AllMapelPage(),
-          '/paket-mapel': (context) => const PaketMapelPage(),
-          '/soal': (context) => const SoalPage(),
-          '/pembahasan-soal': (context) => const PembahasanSoalPage(),
-        },
+      builder: (context, child) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => GenderBloc()),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(fontFamily: 'Poppins'),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const LoginPage(),
+            '/register': (context) => const RegisterPage(),
+            '/home': (context) => const HomePage(),
+            '/profile': (context) => const ProfilePage(),
+            '/nilai': (context) => const NilaiPage(),
+            '/all-mapel': (context) => const AllMapelPage(),
+            '/paket-mapel': (context) => const PaketMapelPage(),
+            '/soal': (context) => const SoalPage(),
+            '/pembahasan-soal': (context) => const PembahasanSoalPage(),
+          },
+        ),
       ),
     );
   }

@@ -8,10 +8,12 @@ class CostumeTexfield extends StatelessWidget {
     super.key,
     required this.title,
     this.decoration = TextDecoration.none,
+    required this.controller,
   });
 
   final String title;
   final TextDecoration decoration;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class CostumeTexfield extends StatelessWidget {
               fontSize: 20,
               fontWeight: regular,
             ),
+            textScaleFactor: 1,
           ),
           const SizedBox(height: 8.0),
           Container(
@@ -43,6 +46,7 @@ class CostumeTexfield extends StatelessWidget {
               ],
             ),
             child: TextField(
+              controller: controller,
               cursorColor: kBlackColor,
               style: blackTextStyle.copyWith(
                 fontSize: 12.sp,

@@ -8,10 +8,13 @@ class AuthServices {
   final http.Client client;
   AuthServices({required this.client});
 
+  final String userBaseUrl = 'https://edspert.widyaedu.com/users';
+  final String apiKeyUser = '18be70c0-4e4d-44ff-a475-50c51ece99a0';
+
   Future<Either<String, UserModel>> getDataUser(String email) async {
     final response = await client.get(
-      Uri.parse('https://edspert.widyaedu.com/users?email=$email'),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      Uri.parse('$userBaseUrl?email=$email'),
+      headers: {'X-API-Key': apiKeyUser},
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -26,8 +29,8 @@ class AuthServices {
   Future<String> register(String email, String namaLengkap, String namaSekolah,
       String kelas, String gender) async {
     final response = await client.post(
-      Uri.parse('https://edspert.widyaedu.com/users/registrasi'),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      Uri.parse('$userBaseUrl/registrasi'),
+      headers: {'X-API-Key': apiKeyUser},
       body: {
         'email': email,
         'nama_lengkap': namaLengkap,
