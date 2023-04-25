@@ -1,9 +1,16 @@
+// To parse this JSON data, do
+//
+//     final pembahasanSoalModel = pembahasanSoalModelFromJson(jsonString);
 import 'dart:convert';
 
-SoalModel soalModelFromJson(String str) => SoalModel.fromJson(json.decode(str));
+PembahasanSoalModel pembahasanSoalModelFromJson(String str) =>
+    PembahasanSoalModel.fromJson(json.decode(str));
 
-class SoalModel {
-  SoalModel({
+String pembahasanSoalModelToJson(PembahasanSoalModel data) =>
+    json.encode(data.toJson());
+
+class PembahasanSoalModel {
+  PembahasanSoalModel({
     required this.exerciseIdFk,
     required this.bankQuestionId,
     required this.questionTitle,
@@ -18,6 +25,9 @@ class SoalModel {
     required this.optionDImg,
     required this.optionE,
     required this.optionEImg,
+    required this.correctAnswer,
+    required this.discussion,
+    required this.discussionImg,
     required this.studentAnswer,
   });
 
@@ -35,9 +45,13 @@ class SoalModel {
   final dynamic optionDImg;
   final String optionE;
   final dynamic optionEImg;
+  final String correctAnswer;
+  final String discussion;
+  final dynamic discussionImg;
   final String studentAnswer;
 
-  factory SoalModel.fromJson(Map<String, dynamic> json) => SoalModel(
+  factory PembahasanSoalModel.fromJson(Map<String, dynamic> json) =>
+      PembahasanSoalModel(
         exerciseIdFk: json["exercise_id_fk"],
         bankQuestionId: json["bank_question_id"],
         questionTitle: json["question_title"],
@@ -52,6 +66,30 @@ class SoalModel {
         optionDImg: json["option_d_img"],
         optionE: json["option_e"],
         optionEImg: json["option_e_img"],
+        correctAnswer: json["correct_answer"],
+        discussion: json["discussion"],
+        discussionImg: json["discussion_img"],
         studentAnswer: json["student_answer"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "exercise_id_fk": exerciseIdFk,
+        "bank_question_id": bankQuestionId,
+        "question_title": questionTitle,
+        "question_title_img": questionTitleImg,
+        "option_a": optionA,
+        "option_a_img": optionAImg,
+        "option_b": optionB,
+        "option_b_img": optionBImg,
+        "option_c": optionC,
+        "option_c_img": optionCImg,
+        "option_d": optionD,
+        "option_d_img": optionDImg,
+        "option_e": optionE,
+        "option_e_img": optionEImg,
+        "correct_answer": correctAnswer,
+        "discussion": discussion,
+        "discussion_img": discussionImg,
+        "student_answer": studentAnswer,
+      };
 }

@@ -164,4 +164,6 @@ class PembahasanSoalPage extends StatelessWidget {
       ),
     );
   }
+
+  static fromJson(x) {}
 }

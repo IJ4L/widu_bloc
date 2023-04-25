@@ -5,18 +5,19 @@ import 'package:http/http.dart' as http;
 import 'package:widyaedu/models/mapel_model.dart';
 import 'package:widyaedu/models/paket_soal_model.dart';
 import 'package:widyaedu/models/skor_model.dart';
-import 'package:widyaedu/models/soal_model.dart';
+import 'package:widyaedu/ui/pages/pembahasan_soal_page.dart';
 
 class LatihanSoalService {
   final http.Client client;
   LatihanSoalService({required this.client});
 
+  final String apiKey = '18be70c0-4e4d-44ff-a475-50c51ece99a0';
+  final String baseUrl = 'https://edspert.widyaedu.com/exercise';
+
   Future<Either<String, List<MapelModel>>> getAllMapel(String email) async {
     final response = await client.get(
-      Uri.parse(
-        'https://edspert.widyaedu.com/exercise/data_course?user_email=$email',
-      ),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      Uri.parse('$baseUrl/data_course?user_email=$email'),
+      headers: {'X-API-Key': apiKey},
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -31,10 +32,8 @@ class LatihanSoalService {
   Future<Either<String, List<PaketModel>>> getAllPaketSoal(
       String courseId, String email) async {
     final response = await client.get(
-      Uri.parse(
-        'https://edspert.widyaedu.com/exercise/data_exercise?course_id=$courseId&user_email=$email',
-      ),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      Uri.parse('$baseUrl/data_exercise?course_id=$courseId&user_email=$email'),
+      headers: {'X-API-Key': apiKey},
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -46,18 +45,18 @@ class LatihanSoalService {
     return Left('Request failed with status: ${response.statusCode}');
   }
 
-  Future<Either<String, List<SoalModel>>> getAllSoal(
+  Future<Either<String, List<PembahasanSoalPage>>> getAllSoal(
       String exerciseId, String email) async {
     final response = await client.post(
-      Uri.parse('https://edspert.widyaedu.com/exercise/kerjakan'),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      Uri.parse('$baseUrl/kerjakan'),
+      headers: {'X-API-Key': apiKey},
       body: {'exercise_id': exerciseId, 'user_email': email},
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       if (data['status'] == 0) return Left(data['message']);
-      return Right(List<SoalModel>.from(
-        data['data'].map((x) => SoalModel.fromJson(x)),
+      return Right(List<PembahasanSoalPage>.from(
+        data['data'].map((x) => PembahasanSoalPage.fromJson(x)),
       ).toList());
     }
     return Left('Request failed with status: ${response.statusCode}');
@@ -66,8 +65,8 @@ class LatihanSoalService {
   Future<String> inputJawaban(String exerciseId, String email,
       String bankQuestion, String answer) async {
     final response = await client.post(
-      Uri.parse('https://edspert.widyaedu.com/exercise/input_jawaban'),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      Uri.parse('$baseUrl/input_jawaban'),
+      headers: {'X-API-Key': apiKey},
       body: {
         'exercise_id': exerciseId,
         'user_email': email,
@@ -83,9 +82,9 @@ class LatihanSoalService {
       String exerciseId, String email) async {
     final response = await client.get(
       Uri.parse(
-        'https://edspert.widyaedu.com/exercise/score_result?exercise_id=$exerciseId&user_email=$email',
+        '$baseUrl/score_result?exercise_id=$exerciseId&user_email=$email',
       ),
-      headers: {'X-API-Key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
+      headers: {'X-API-Key': apiKey},
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
