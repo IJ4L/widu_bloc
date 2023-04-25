@@ -2,8 +2,6 @@ import 'dart:convert';
 
 SoalModel soalModelFromJson(String str) => SoalModel.fromJson(json.decode(str));
 
-String soalModelToJson(SoalModel data) => json.encode(data.toJson());
-
 class SoalModel {
   SoalModel({
     required this.exerciseIdFk,
@@ -56,22 +54,4 @@ class SoalModel {
         optionEImg: json["option_e_img"],
         studentAnswer: json["student_answer"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "exercise_id_fk": exerciseIdFk,
-        "bank_question_id": bankQuestionId,
-        "question_title": questionTitle,
-        "question_title_img": questionTitleImg,
-        "option_a": optionA,
-        "option_a_img": optionAImg,
-        "option_b": optionB,
-        "option_b_img": optionBImg,
-        "option_c": optionC,
-        "option_c_img": optionCImg,
-        "option_d": optionD,
-        "option_d_img": optionDImg,
-        "option_e": optionE,
-        "option_e_img": optionEImg,
-        "student_answer": studentAnswer,
-      };
 }
