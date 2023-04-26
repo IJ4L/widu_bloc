@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 
 import '../widgets/card_mapel.dart';
@@ -48,32 +50,54 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Hai, Fitria Novitasari',
-                            style: whiteTextStyle.copyWith(
-                              fontWeight: bold,
-                              fontSize: 14.sp,
+                          SizedBox(
+                            width: 140.w,
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                if (state is Authenticated) {
+                                  return Text(
+                                    state.userData.userName,
+                                    style: whiteTextStyle.copyWith(
+                                      fontWeight: bold,
+                                      fontSize: 14.sp,
+                                    ),
+                                  );
+                                }
+                                return const Text('');
+                              },
                             ),
                           ),
-                          SizedBox(width: 18.w),
                           GestureDetector(
                             onTap: () =>
                                 Navigator.pushNamed(context, '/profile'),
-                            child: Container(
-                              height: 34.r,
-                              width: 34.r,
-                              decoration: BoxDecoration(
-                                color: kWhiteColor,
-                                borderRadius: BorderRadius.circular(29),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: kBlackColor.withOpacity(0.2),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 6),
-                                  ),
-                                ],
-                              ),
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                if (state is Authenticated) {
+                                  return Container(
+                                    height: 34.r,
+                                    width: 34.r,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(29),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          state.userData.userFoto,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: kBlackColor.withOpacity(0.2),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 6),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
                             ),
                           )
                         ],

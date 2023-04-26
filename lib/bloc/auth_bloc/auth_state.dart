@@ -26,3 +26,19 @@ class Unauthenticated extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
+class SucsessRegister extends AuthState {
+  final String status;
+  const SucsessRegister(this.status);
+
+  @override
+  List<Object> get props => [status];
+}
+
+class FailedRegister extends AuthState {
+  final String message;
+  const FailedRegister(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

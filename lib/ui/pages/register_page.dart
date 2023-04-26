@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
 import 'package:widyaedu/bloc/gender_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 import 'package:widyaedu/ui/widgets/costume_appbar.dart';
@@ -13,10 +14,10 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController email = TextEditingController();
-    final TextEditingController namaLengkap = TextEditingController();
-    final TextEditingController kelas = TextEditingController();
-    final TextEditingController namaSekolah = TextEditingController();
+    final TextEditingController email = TextEditingController(text: '');
+    final TextEditingController namaLengkap = TextEditingController(text: '');
+    final TextEditingController kelas = TextEditingController(text: '');
+    final TextEditingController namaSekolah = TextEditingController(text: '');
 
     final GenderBloc genderBloc = context.read<GenderBloc>();
     return Scaffold(
@@ -64,19 +65,32 @@ class RegisterPage extends StatelessWidget {
             CostumeTexfield(title: 'Kelas', controller: kelas),
             CostumeTexfield(title: 'Nama Sekolah', controller: namaSekolah),
             SizedBox(height: 10.h),
-            Center(
-              child: CostumeButton(
-                title: 'Daftar',
-                height: 45.h,
-                width: 127.w,
-                radius: 10,
-                color: kSecondColor,
-                colorTitle: kWhiteColor,
-                blurRadius: 1,
-                spreadRadius: 1,
-                fontWeight: bold,
-                ontap: () {},
-              ),
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is SucsessRegister) {
+                  Navigator.pop(context);
+                }
+                if (state is FailedRegister) {}
+              },
+              builder: (context, state) {
+                return Center(
+                  child: CostumeButton(
+                    title: 'Daftar',
+                    height: 45.h,
+                    width: 127.w,
+                    radius: 10,
+                    color: kSecondColor,
+                    colorTitle: kWhiteColor,
+                    blurRadius: 1,
+                    spreadRadius: 1,
+                    fontWeight: bold,
+                    ontap: () => context.read<AuthBloc>().add(
+                          RegisterEvent(email.text, namaLengkap.text,
+                              genderBloc.state, kelas.text, namaSekolah.text),
+                        ),
+                  ),
+                );
+              },
             )
           ],
         ),

@@ -120,11 +120,11 @@ class AuthServices {
         },
       );
     }
-    return const Left('s');
+    return const Left('Gagal Login');
   }
 
-  Future<String> register(String email, String namaLengkap, String namaSekolah,
-      String kelas, String gender) async {
+  Future<Either<String, String>> register(String email, String namaLengkap,
+      String namaSekolah, String kelas, String gender) async {
     final response = await client.post(
       Uri.parse('$userBaseUrl/registrasi'),
       headers: {'X-API-Key': apiKeyUser},
@@ -134,15 +134,15 @@ class AuthServices {
         'gender': gender,
         'kelas': kelas,
         'nama_sekolah': namaSekolah,
-        'foto': '',
+        'foto': 'url foto',
       },
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      if (data['status'] == 0) return data['message'];
+      if (data['status'] == 0) return Left(data['message']);
     }
 
-    return 'Berhasil Mendaftar';
+    return const Right('Sucsess Register');
   }
 }

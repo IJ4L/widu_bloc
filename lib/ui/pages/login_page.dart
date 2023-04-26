@@ -52,7 +52,7 @@ class LoginPage extends StatelessWidget {
               return CostumeButton(
                 title: 'Login With Google',
                 fontWeight: bold,
-                ontap: () => context.read<AuthBloc>().add(LoggedIn()),
+                ontap: () => context.read<AuthBloc>().add(LoggedInEvent()),
               );
             },
           ),
