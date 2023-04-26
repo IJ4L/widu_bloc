@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
 import 'package:widyaedu/bloc/gender_bloc.dart';
+import 'package:widyaedu/services/auth_service.dart';
 import 'package:widyaedu/ui/pages/all_mapel_page.dart';
 import 'package:widyaedu/ui/pages/home_page.dart';
 import 'package:widyaedu/ui/pages/login_page.dart';
@@ -12,6 +14,8 @@ import 'package:widyaedu/ui/pages/pembahasan_soal_page.dart';
 import 'package:widyaedu/ui/pages/profile_page.dart';
 import 'package:widyaedu/ui/pages/register_page.dart';
 import 'package:widyaedu/ui/pages/soal_page.dart';
+
+import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +35,11 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => GenderBloc()),
+          BlocProvider(
+            create: (context) => AuthBloc(
+              authServices: AuthServices(client: http.Client()),
+            ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

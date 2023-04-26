@@ -68,6 +68,8 @@ class AuthServices {
     GoogleSignInAccount? currentUser;
     UserCredential? userCredential;
 
+    UserModel user;
+
     await googleSignIn.signOut();
     await googleSignIn.signIn().then((value) => currentUser = value);
 
@@ -85,17 +87,40 @@ class AuthServices {
           .then((value) => userCredential = value);
 
       final data = await getDataUser(currentUser!.email);
-      data.fold(
-        (l) {},
-        (r) {
-          if (r.userFoto == 'url foto') {
-            updateDataUser(r.userEmail, r.userName, r.userAsalSekolah, r.kelas,
-                r.userGender, currentUser!.photoUrl.toString());
+      return data.fold(
+        (message) {
+          return Left(message);
+        },
+        (data) {
+          if (data.userFoto == 'url foto') {
+            updateDataUser(
+              data.userEmail,
+              data.userName,
+              data.userAsalSekolah,
+              data.kelas,
+              data.userGender,
+              currentUser!.photoUrl.toString(),
+            );
+
+            user = UserModel(
+              iduser: data.iduser,
+              userName: data.userName,
+              userEmail: data.userEmail,
+              userFoto: currentUser!.photoUrl.toString(),
+              userAsalSekolah: data.userAsalSekolah,
+              kelas: data.kelas,
+              dateCreate: data.dateCreate,
+              userGender: data.userGender,
+              userStatus: data.userStatus,
+            );
+            return Right(user);
           }
+          user = data;
+          return Right(user);
         },
       );
     }
-    return const Left('');
+    return const Left('s');
   }
 
   Future<String> register(String email, String namaLengkap, String namaSekolah,
