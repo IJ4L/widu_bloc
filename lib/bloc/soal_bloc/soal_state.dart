@@ -34,3 +34,11 @@ class SoalFailure extends SoalState {
   @override
   List<Object> get props => [message];
 }
+
+class SoalGetSkor extends SoalState {
+  final SkorModel skor;
+  const SoalGetSkor(this.skor);
+
+  @override
+  List<Object> get props => [skor];
+}

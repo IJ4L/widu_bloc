@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:widyaedu/models/skor_model.dart';
 import 'package:widyaedu/models/soal_model.dart';
 import 'package:widyaedu/services/latihan_soal_service.dart';
 
@@ -20,14 +21,22 @@ class SoalBloc extends Bloc<SoalEvent, SoalState> {
       );
     });
     on<AnswerSoalEvent>((event, emit) async {
-      emit(SoalLoading());
-      final result = await latihanSoalService.inputJawaban(
+      latihanSoalService.inputJawaban(
         event.exerciseId,
         event.email,
         event.bankQuestion,
         event.answer,
       );
-      emit(SoalAnswered(result));
+    });
+    on<LoadSkorEvent>((event, emit) async {
+      emit(SoalLoading());
+      final result =
+          await latihanSoalService.getDataSkor(event.exerciseId, event.email);
+
+      result.fold(
+        (l) => null,
+        (skor) => emit(SoalGetSkor(skor)),
+      );
     });
   }
 }

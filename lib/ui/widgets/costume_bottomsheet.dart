@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 
 import '../../shared/theme.dart';
 import 'costume_button.dart';
 
-Future<dynamic> showDialogMaker(BuildContext context) {
+Future<dynamic> showDialogMaker(
+    BuildContext context, String exerciseId, String email) {
   return showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -65,7 +68,7 @@ Future<dynamic> showDialogMaker(BuildContext context) {
                   height: 37.h,
                   radius: 15.r,
                   opacity: 0.1,
-                  ontap: () {},
+                  ontap: () => Navigator.pop(context),
                 ),
                 CostumeButton(
                   title: 'Kirim',
@@ -76,7 +79,14 @@ Future<dynamic> showDialogMaker(BuildContext context) {
                   color: kSecondColor,
                   colorTitle: kWhiteColor,
                   widthBorder: 1.5,
-                  ontap: () {},
+                  ontap: () {
+                    print(email + ' sheet');
+                    context
+                        .read<SoalBloc>()
+                        .add(LoadSkorEvent(exerciseId, email));
+                    Navigator.pushNamed(context, '/nilai',
+                        arguments: [email, exerciseId]);
+                  },
                 ),
               ],
             ),

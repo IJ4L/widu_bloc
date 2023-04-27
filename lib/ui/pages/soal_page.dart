@@ -15,6 +15,7 @@ class SoalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Object? email = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -129,10 +130,15 @@ class SoalPage extends StatelessWidget {
                               textScaleFactor: 1,
                             ),
                             SizedBox(height: 22.h),
-                            Text(
-                              replaceTags(data.questionTitle),
-                              style: blackTextStyle.copyWith(fontSize: 13.sp),
-                            ),
+                            data.questionTitle != ''
+                                ? Text(
+                                    replaceTags(data.questionTitle),
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 13.sp),
+                                  )
+                                : Image.network(
+                                    data.questionTitleImg,
+                                  ),
                             BlocBuilder<ChoiceBloc, String>(
                               builder: (context, state) {
                                 return Column(
@@ -188,10 +194,11 @@ class SoalPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
         child: BlocBuilder<ChangeBloc, int>(
           builder: (context, state) {
+            final index = state;
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                state == 0
+                index == 0
                     ? const Text('')
                     : GestureDetector(
                         onTap: () => context.read<ChangeBloc>().add(
@@ -206,21 +213,39 @@ class SoalPage extends StatelessWidget {
                           textScaleFactor: 1,
                         ),
                       ),
-                GestureDetector(
-                  onTap: () {
-                    context.read<ChoiceBloc>().add(Initial());
-                    state == 9
-                        ? showDialogMaker(context)
-                        : context.read<ChangeBloc>().add(NextEvent());
+                BlocBuilder<SoalBloc, SoalState>(
+                  builder: (context, state) {
+                    if (state is SoalLoaded) {
+                      final data = state.allSoal[index];
+                      return GestureDetector(
+                        onTap: () {
+                          context.read<SoalBloc>().add(AnswerSoalEvent(
+                                data.exerciseIdFk,
+                                email.toString(),
+                                data.bankQuestionId,
+                                context.read<ChoiceBloc>().state,
+                              ));
+                          context.read<ChoiceBloc>().add(Initial());
+                          index == 9
+                              ? showDialogMaker(
+                                  context,
+                                  data.exerciseIdFk,
+                                  email.toString(),
+                                )
+                              : context.read<ChangeBloc>().add(NextEvent());
+                        },
+                        child: Text(
+                          'Lanjut',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.underline,
+                          ),
+                          textScaleFactor: 1,
+                        ),
+                      );
+                    }
+                    return const Text("");
                   },
-                  child: Text(
-                    'Lanjut',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 15,
-                      decoration: TextDecoration.underline,
-                    ),
-                    textScaleFactor: 1,
-                  ),
                 ),
               ],
             );

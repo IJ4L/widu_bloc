@@ -35,10 +35,17 @@ class AllMapelPage extends StatelessWidget {
                         done: data[index].jumlahDone,
                         jumlahPaket: data[index].jumlahMateri,
                         ontap: () {
-                          context.read<PaketSoalBloc>().add(LoadPaketEvent(
-                              data[index].courseId, email.toString()));
-                          Navigator.pushNamed(context, '/paket-mapel',
-                              arguments: email);
+                          context.read<PaketSoalBloc>().add(
+                                LoadPaketEvent(
+                                  data[index].courseId,
+                                  email.toString(),
+                                ),
+                              );
+                          Navigator.pushNamed(
+                            context,
+                            '/paket-mapel',
+                            arguments: email,
+                          );
                         },
                       ),
                       separatorBuilder: (_, index) => const SizedBox(height: 0),

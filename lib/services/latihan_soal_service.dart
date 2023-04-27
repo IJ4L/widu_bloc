@@ -81,6 +81,7 @@ class LatihanSoalService {
 
   Future<Either<String, SkorModel>> getDataSkor(
       String exerciseId, String email) async {
+    print('masuk');
     final response = await client.get(
       Uri.parse(
         '$baseUrl/score_result?exercise_id=$exerciseId&user_email=$email',
@@ -89,6 +90,9 @@ class LatihanSoalService {
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      print(exerciseId);
+      print(email);
+      print(data['data']);
       if (data['status'] == 0) return Left(data['message']);
       return Right(SkorModel.fromJson(data['data']['result']));
     }

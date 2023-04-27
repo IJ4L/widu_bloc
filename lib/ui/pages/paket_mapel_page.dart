@@ -16,7 +16,7 @@ class PaketMapelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Object? email = ModalRoute.of(context)!.settings.arguments;
+    final String email = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -49,12 +49,13 @@ class PaketMapelPage extends StatelessWidget {
                           context.read<ChangeBloc>().add(InitalChange());
                           context.read<ChoiceBloc>().add(Initial());
                           context.read<SoalBloc>().add(
-                                LoadSoalEvent(
-                                  data[index].exerciseId,
-                                  email.toString(),
-                                ),
+                                LoadSoalEvent(data[index].exerciseId, email),
                               );
-                          Navigator.pushNamed(context, '/soal');
+                          Navigator.pushNamed(
+                            context,
+                            '/soal',
+                            arguments: email,
+                          );
                         },
                       ),
                     ),
