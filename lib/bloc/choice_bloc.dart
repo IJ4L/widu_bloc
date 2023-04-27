@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 
 abstract class ChoiceEvent {}
 
+class Initial extends ChoiceEvent {}
+
 class SelectA extends ChoiceEvent {}
 
 class SelectB extends ChoiceEvent {}
@@ -19,5 +21,6 @@ class ChoiceBloc extends Bloc<ChoiceEvent, String> {
     on<SelectC>((event, emit) => emit('C'));
     on<SelectD>((event, emit) => emit('D'));
     on<SelectE>((event, emit) => emit('E'));
+    on<Initial>((event, emit) => emit(''));
   }
 }

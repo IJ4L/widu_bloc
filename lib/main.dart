@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
+import 'package:widyaedu/bloc/choice_bloc.dart';
 import 'package:widyaedu/bloc/gender_bloc.dart';
 import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
 import 'package:widyaedu/bloc/next_bloc.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => GenderBloc()),
           BlocProvider(create: (context) => ChangeBloc()),
+          BlocProvider(create: (context) => ChoiceBloc()),
           BlocProvider(
             create: (context) => AuthBloc(
               authServices: AuthServices(client: http.Client()),

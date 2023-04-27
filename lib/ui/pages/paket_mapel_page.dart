@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 
+import '../../bloc/choice_bloc.dart';
 import '../../shared/theme.dart';
 import '../widgets/card_soal_latihan.dart';
 import '../widgets/costume_appbar.dart';
@@ -44,6 +46,8 @@ class PaketMapelPage extends StatelessWidget {
                         done: data[index].jumlahDone,
                         jumlahSoal: int.parse(data[index].jumlahSoal),
                         ontap: () {
+                          context.read<ChangeBloc>().add(InitalChange());
+                          context.read<ChoiceBloc>().add(Initial());
                           context.read<SoalBloc>().add(
                                 LoadSoalEvent(
                                   data[index].exerciseId,

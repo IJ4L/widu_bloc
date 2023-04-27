@@ -133,46 +133,43 @@ class SoalPage extends StatelessWidget {
                               replaceTags(data.questionTitle),
                               style: blackTextStyle.copyWith(fontSize: 13.sp),
                             ),
-                            BlocProvider(
-                              create: (context) => ChoiceBloc(),
-                              child: BlocBuilder<ChoiceBloc, String>(
-                                builder: (context, state) {
-                                  return Column(
-                                    children: [
-                                      ChoiceCard(
-                                        alphabet: 'A.',
-                                        answer: data.optionA,
-                                        color: state == 'A',
-                                        event: SelectA(),
-                                      ),
-                                      ChoiceCard(
-                                        alphabet: 'B.',
-                                        answer: data.optionB,
-                                        color: state == 'B',
-                                        event: SelectB(),
-                                      ),
-                                      ChoiceCard(
-                                        alphabet: 'C.',
-                                        answer: data.optionC,
-                                        color: state == 'C',
-                                        event: SelectC(),
-                                      ),
-                                      ChoiceCard(
-                                        alphabet: 'D.',
-                                        answer: data.optionD,
-                                        color: state == 'D',
-                                        event: SelectD(),
-                                      ),
-                                      ChoiceCard(
-                                        alphabet: 'E.',
-                                        answer: data.optionE,
-                                        color: state == 'E',
-                                        event: SelectE(),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
+                            BlocBuilder<ChoiceBloc, String>(
+                              builder: (context, state) {
+                                return Column(
+                                  children: [
+                                    ChoiceCard(
+                                      alphabet: 'A.',
+                                      answer: data.optionA,
+                                      color: state == 'A',
+                                      event: SelectA(),
+                                    ),
+                                    ChoiceCard(
+                                      alphabet: 'B.',
+                                      answer: data.optionB,
+                                      color: state == 'B',
+                                      event: SelectB(),
+                                    ),
+                                    ChoiceCard(
+                                      alphabet: 'C.',
+                                      answer: data.optionC,
+                                      color: state == 'C',
+                                      event: SelectC(),
+                                    ),
+                                    ChoiceCard(
+                                      alphabet: 'D.',
+                                      answer: data.optionD,
+                                      color: state == 'D',
+                                      event: SelectD(),
+                                    ),
+                                    ChoiceCard(
+                                      alphabet: 'E.',
+                                      answer: data.optionE,
+                                      color: state == 'E',
+                                      event: SelectE(),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                             SizedBox(height: 32.h),
                           ],
@@ -197,8 +194,9 @@ class SoalPage extends StatelessWidget {
                 state == 0
                     ? const Text('')
                     : GestureDetector(
-                        onTap: () =>
-                            context.read<ChangeBloc>().add(PreviousEvent()),
+                        onTap: () => context.read<ChangeBloc>().add(
+                              PreviousEvent(),
+                            ),
                         child: Text(
                           'Kembali',
                           style: blackTextStyle.copyWith(
@@ -209,9 +207,12 @@ class SoalPage extends StatelessWidget {
                         ),
                       ),
                 GestureDetector(
-                  onTap: () => state == 9
-                      ? showDialogMaker(context)
-                      : context.read<ChangeBloc>().add(NextEvent()),
+                  onTap: () {
+                    context.read<ChoiceBloc>().add(Initial());
+                    state == 9
+                        ? showDialogMaker(context)
+                        : context.read<ChangeBloc>().add(NextEvent());
+                  },
                   child: Text(
                     'Lanjut',
                     style: blackTextStyle.copyWith(
