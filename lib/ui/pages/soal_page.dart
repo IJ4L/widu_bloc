@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 import 'package:widyaedu/ui/widgets/costume_button.dart';
 
@@ -35,8 +37,8 @@ class SoalPage extends StatelessWidget {
               ),
               child: SafeArea(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 16.0),
                     Text(
                       'Bahasa Indonesia',
                       style: whiteTextStyle.copyWith(
@@ -97,159 +99,175 @@ class SoalPage extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Soal Nomor 1',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 12.sp,
-                      fontWeight: bold,
-                    ),
-                    textScaleFactor: 1,
-                  ),
-                  SizedBox(height: 22.h),
-                  Text(
-                    'Menurut sejarah, kentang ditanam petani Peru sejak 2.000 tahun lalu pada 1524, saat tentara Spanyol mendarat di sana, kentang, kacang tanah, dan merica mulai dikenal dunia. Seorang tentara Spanyol tertarik pada kentang yang tumbuh subur di Desa Sorocota, di Pegunungan Andes, Peru. Ia membawanya ke Spanyol. Setelah mendarat di Spanyol, ia menyebarkannya ke seluruh penjuru Eropa.Pernyataan yang sesuai dengan isi teks tersebut adalah...',
-                    style: blackTextStyle.copyWith(fontSize: 13.sp),
-                  ),
-                  const ChoiceCard(
-                    alphabet: 'A.',
-                    answer: 'Penyebar kentang di Eropa adalah Spanyol',
-                  ),
-                  const ChoiceCard(
-                    alphabet: 'B.',
-                    answer: 'Kentang merupakan makanan pokok tentara Spanyol',
-                  ),
-                  const ChoiceCard(
-                    alphabet: 'C.',
-                    answer:
-                        'Penemuan kacang tanah dan kentang dilakukan dengan sengaja',
-                  ),
-                  const ChoiceCard(
-                    alphabet: 'D.',
-                    answer:
-                        'Ketertarikan tentara Spanyol karena kentang karena ditanam di Peru',
-                  ),
-                  const ChoiceCard(
-                    alphabet: 'E.',
-                    answer: 'Semua jawaban benar',
-                  ),
-                  SizedBox(height: 32.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Kembali',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(15.r),
-                            ),
+            BlocBuilder<SoalBloc, SoalState>(
+              builder: (context, state) {
+                if (state is SoalLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is SoalLoaded) {
+                  final data = state.allSoal[0];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Soal Nomor 1',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 12.sp,
+                            fontWeight: bold,
                           ),
-                          builder: (context) => Container(
-                            height: 350.h,
-                            decoration: BoxDecoration(
-                              color: kSecondColor,
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(15.r),
+                          textScaleFactor: 1,
+                        ),
+                        SizedBox(height: 22.h),
+                        Text(
+                          replaceTags(data.questionTitle),
+                          style: blackTextStyle.copyWith(fontSize: 13.sp),
+                        ),
+                        ChoiceCard(
+                          alphabet: 'A.',
+                          answer: replaceTags(data.optionA),
+                        ),
+                        ChoiceCard(
+                          alphabet: 'B.',
+                          answer: replaceTags(data.optionB),
+                        ),
+                        ChoiceCard(
+                          alphabet: 'C.',
+                          answer: replaceTags(data.optionC),
+                        ),
+                        ChoiceCard(
+                          alphabet: 'D.',
+                          answer: replaceTags(data.optionD),
+                        ),
+                        ChoiceCard(
+                          alphabet: 'E.',
+                          answer: replaceTags(data.optionE),
+                        ),
+                        SizedBox(height: 32.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Kembali',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 15,
+                                decoration: TextDecoration.underline,
                               ),
                             ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 6.h,
-                                  width: 132.w,
-                                  margin: EdgeInsets.only(top: 16.h),
+                            GestureDetector(
+                              onTap: () => showModalBottomSheet(
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(15.r),
+                                  ),
+                                ),
+                                builder: (context) => Container(
+                                  height: 350.h,
                                   decoration: BoxDecoration(
-                                    color: kWhiteColor,
-                                    borderRadius: BorderRadius.circular(100),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: kBlackColor.withOpacity(0.2),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 6),
-                                      ),
-                                    ],
+                                    color: kSecondColor,
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(15.r),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 40.h),
-                                Text(
-                                  'Kumpulin Latihan Soal Sekarang ?',
-                                  style: whiteTextStyle.copyWith(
-                                    fontSize: 16.sp,
-                                    fontWeight: bold,
-                                  ),
-                                ),
-                                SizedBox(height: 20.h),
-                                Image.asset(
-                                  "assets/icon_send.png",
-                                  width: 152.w,
-                                  height: 145.h,
-                                  fit: BoxFit.fill,
-                                ),
-                                SizedBox(height: 22.h),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20.w),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                  child: Column(
                                     children: [
-                                      CostumeButton(
-                                        title: 'Nanti',
-                                        width: 138.w,
-                                        height: 37.h,
-                                        radius: 15.r,
-                                        opacity: 0.1,
-                                        ontap: () {},
+                                      Container(
+                                        height: 6.h,
+                                        width: 132.w,
+                                        margin: EdgeInsets.only(top: 16.h),
+                                        decoration: BoxDecoration(
+                                          color: kWhiteColor,
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  kBlackColor.withOpacity(0.2),
+                                              blurRadius: 4,
+                                              offset: const Offset(0, 6),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      CostumeButton(
-                                        title: 'Kirim',
-                                        width: 138.w,
-                                        height: 37.h,
-                                        radius: 15.r,
-                                        opacity: 0.1,
-                                        color: kSecondColor,
-                                        colorTitle: kWhiteColor,
-                                        widthBorder: 1.5,
-                                        ontap: () {},
+                                      SizedBox(height: 40.h),
+                                      Text(
+                                        'Kumpulin Latihan Soal Sekarang ?',
+                                        style: whiteTextStyle.copyWith(
+                                          fontSize: 16.sp,
+                                          fontWeight: bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      Image.asset(
+                                        "assets/icon_send.png",
+                                        width: 152.w,
+                                        height: 145.h,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      SizedBox(height: 22.h),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            CostumeButton(
+                                              title: 'Nanti',
+                                              width: 138.w,
+                                              height: 37.h,
+                                              radius: 15.r,
+                                              opacity: 0.1,
+                                              ontap: () {},
+                                            ),
+                                            CostumeButton(
+                                              title: 'Kirim',
+                                              width: 138.w,
+                                              height: 37.h,
+                                              radius: 15.r,
+                                              opacity: 0.1,
+                                              color: kSecondColor,
+                                              colorTitle: kWhiteColor,
+                                              widthBorder: 1.5,
+                                              ontap: () {},
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
+                              ),
+                              child: Text(
+                                'Lanjut',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 15,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        child: Text(
-                          'Lanjut',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 15,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 32.h),
-                ],
-              ),
+                        SizedBox(height: 32.h),
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
           ],
         ),
       ),
     );
   }
+}
+
+String replaceTags(String text) {
+  text = text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), '');
+  return text;
 }
 
 class ChoiceCard extends StatelessWidget {
@@ -265,10 +283,7 @@ class ChoiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 20.h),
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.w,
-        vertical: 15.h,
-      ),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.r),
         border: Border.all(
@@ -282,7 +297,7 @@ class ChoiceCard extends StatelessWidget {
             alphabet,
             style: blackTextStyle.copyWith(fontSize: 11.sp),
           ),
-          SizedBox(width: 18.w),
+          SizedBox(width: 16.w),
           Expanded(
             child: Text(
               answer,

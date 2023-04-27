@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
+import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
-
-import '../widgets/card_mapel.dart';
+import 'package:widyaedu/ui/widgets/navbar_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                               builder: (context, state) {
                                 if (state is Authenticated) {
                                   return Text(
-                                    state.userData.userName,
+                                    'Hai, ${state.userData.userName}',
                                     style: whiteTextStyle.copyWith(
                                       fontWeight: bold,
                                       fontSize: 14.sp,
@@ -124,33 +124,47 @@ class HomePage extends StatelessWidget {
                       fontWeight: bold,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/all-mapel'),
-                    child: Text(
-                      'Lihat Semua',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16.sp,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is Authenticated) {
+                        final data = state.userData;
+                        return GestureDetector(
+                          onTap: () async {
+                            Navigator.pushNamed(context, '/all-mapel',
+                                arguments: data.userEmail);
+                            context
+                                .read<MapelBloc>()
+                                .add(LoadMapelEvent(data.userEmail));
+                          },
+                          child: Text(
+                            'Lihat Semua',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 16.sp,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        );
+                      }
+                      return Container();
+                    },
                   ),
                 ],
               ),
             ),
             SizedBox(height: 20.h),
-            CardMapel(
-              icon: "assets/icon_mtk.png",
-              namaMapel: 'Matematika',
-              ontap: () => Navigator.pushNamed(
-                context,
-                '/paket-mapel',
-              ),
-            ),
-            CardMapel(
-              icon: "assets/icon_bio.png",
-              namaMapel: 'Biologi',
-              ontap: () {},
-            ),
+            // CardMapel(
+            //   icon: "assets/icon_mtk.png",
+            //   namaMapel: 'Matematika',
+            //   ontap: () => Navigator.pushNamed(
+            //     context,
+            //     '/paket-mapel',
+            //   ),
+            // ),
+            // CardMapel(
+            //   icon: "assets/icon_bio.png",
+            //   namaMapel: 'Biologi',
+            //   ontap: () {},
+            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
               child: Text(
@@ -180,67 +194,10 @@ class HomePage extends StatelessWidget {
                 itemCount: 3,
               ),
             ),
-            SizedBox(
-              height: 120.h,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 70.h,
-                      width: double.infinity,
-                      color: kSecondColor,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 8.h,
-                    left: (MediaQuery.of(context).size.width - 66.h) / 2,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 66.h,
-                          width: 66.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(66.h / 2),
-                            border: Border.all(
-                              color: kPrimaryColor,
-                              width: 1.5,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: kBlackColor.withOpacity(0.2),
-                                blurRadius: 4,
-                                offset: const Offset(0, 6),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Image.asset(
-                              "assets/icon_home.png",
-                              width: 34.r,
-                              height: 34.r,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'Home',
-                          style: whiteTextStyle.copyWith(
-                            fontSize: 15.sp,
-                            fontWeight: bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }

@@ -10,9 +10,12 @@ class CardMapel extends StatelessWidget {
     required this.icon,
     required this.namaMapel,
     required this.ontap,
+    required this.done,
+    required this.jumlahPaket,
   });
 
   final String icon, namaMapel;
+  final int done, jumlahPaket;
   final Function() ontap;
 
   @override
@@ -38,7 +41,7 @@ class CardMapel extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(
+            Image.network(
               icon,
               width: 60.r,
               height: 60.r,
@@ -52,16 +55,16 @@ class CardMapel extends StatelessWidget {
                 Text(
                   namaMapel,
                   style: blackTextStyle.copyWith(
-                    fontSize: 16.sp,
+                    fontSize: 16,
                     fontWeight: bold,
                   ),
                   textScaleFactor: 1,
                 ),
                 SizedBox(height: 14.h),
                 Text(
-                  '0/10 paket soal',
+                  '$done/$jumlahPaket paket soal',
                   style: blackTextStyle.copyWith(
-                    fontSize: 13.sp,
+                    fontSize: 13,
                     fontWeight: regular,
                   ),
                   textScaleFactor: 1,
@@ -70,7 +73,7 @@ class CardMapel extends StatelessWidget {
                 LinearPercentIndicator(
                   width: 150.w,
                   lineHeight: 4.h,
-                  percent: 0.5,
+                  percent: done / jumlahPaket,
                   backgroundColor: Colors.grey,
                   progressColor: kPrimaryColor,
                   barRadius: const Radius.circular(10),

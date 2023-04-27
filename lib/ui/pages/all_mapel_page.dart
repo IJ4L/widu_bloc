@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 
+import '../../bloc/mapel_bloc/mapel_bloc.dart';
 import '../widgets/card_mapel.dart';
 import '../widgets/costume_appbar.dart';
 
@@ -10,27 +13,49 @@ class AllMapelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Object? email = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             const CostumeAppbar(title: 'Pilih Pelajaran', shadowText: false),
-            CardMapel(
-              icon: 'assets/icon_bio.png',
-              namaMapel: 'Biologi',
-              ontap: () {},
-            ),
-            CardMapel(
-              icon: 'assets/icon_bio.png',
-              namaMapel: 'Biologi',
-              ontap: () {},
-            ),
-            CardMapel(
-              icon: 'assets/icon_bio.png',
-              namaMapel: 'Biologi',
-              ontap: () {},
-            ),
+            BlocBuilder<MapelBloc, MapelState>(
+              builder: (context, state) {
+                if (state is MapelLoaded) {
+                  final data = state.allMapel;
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.66,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) => CardMapel(
+                        icon: data[1].urlCover,
+                        namaMapel: data[index].courseName,
+                        done: data[index].jumlahDone,
+                        jumlahPaket: data[index].jumlahMateri,
+                        ontap: () {
+                          context.read<PaketSoalBloc>().add(LoadPaketEvent(
+                              data[index].courseId, email.toString()));
+                          Navigator.pushNamed(context, '/paket-mapel',
+                              arguments: email);
+                        },
+                      ),
+                      separatorBuilder: (_, index) => const SizedBox(height: 0),
+                      itemCount: data.length,
+                    ),
+                  );
+                }
+
+                if (state is MapelLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return Container();
+              },
+            )
           ],
         ),
       ),

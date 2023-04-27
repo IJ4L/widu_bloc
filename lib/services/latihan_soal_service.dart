@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:widyaedu/models/mapel_model.dart';
 import 'package:widyaedu/models/paket_soal_model.dart';
 import 'package:widyaedu/models/skor_model.dart';
-import 'package:widyaedu/ui/pages/pembahasan_soal_page.dart';
+
+import '../models/soal_model.dart';
 
 class LatihanSoalService {
   final http.Client client;
@@ -45,7 +46,7 @@ class LatihanSoalService {
     return Left('Request failed with status: ${response.statusCode}');
   }
 
-  Future<Either<String, List<PembahasanSoalPage>>> getAllSoal(
+  Future<Either<String, List<SoalModel>>> getAllSoal(
       String exerciseId, String email) async {
     final response = await client.post(
       Uri.parse('$baseUrl/kerjakan'),
@@ -55,8 +56,8 @@ class LatihanSoalService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       if (data['status'] == 0) return Left(data['message']);
-      return Right(List<PembahasanSoalPage>.from(
-        data['data'].map((x) => PembahasanSoalPage.fromJson(x)),
+      return Right(List<SoalModel>.from(
+        data['data'].map((x) => SoalModel.fromJson(x)),
       ).toList());
     }
     return Left('Request failed with status: ${response.statusCode}');
