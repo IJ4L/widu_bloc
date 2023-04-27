@@ -19,6 +19,14 @@ class SoalLoaded extends SoalState {
   List<Object> get props => [allSoal];
 }
 
+class SoalAnswered extends SoalState {
+  final String message;
+  const SoalAnswered(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
 class SoalFailure extends SoalState {
   final String message;
   const SoalFailure(this.message);

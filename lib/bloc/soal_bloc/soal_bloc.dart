@@ -19,5 +19,15 @@ class SoalBloc extends Bloc<SoalEvent, SoalState> {
         (data) => emit(SoalLoaded(data)),
       );
     });
+    on<AnswerSoalEvent>((event, emit) async {
+      emit(SoalLoading());
+      final result = await latihanSoalService.inputJawaban(
+        event.exerciseId,
+        event.email,
+        event.bankQuestion,
+        event.answer,
+      );
+      emit(SoalAnswered(result));
+    });
   }
 }

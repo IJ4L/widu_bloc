@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
 import 'package:widyaedu/bloc/gender_bloc.dart';
 import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
+import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 import 'package:widyaedu/services/auth_service.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => GenderBloc()),
+          BlocProvider(create: (context) => ChangeBloc()),
           BlocProvider(
             create: (context) => AuthBloc(
               authServices: AuthServices(client: http.Client()),

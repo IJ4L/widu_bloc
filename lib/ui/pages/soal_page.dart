@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
-import 'package:widyaedu/ui/widgets/costume_button.dart';
+
+import '../../bloc/choice_bloc.dart';
+import '../util/replace_tag.dart';
+import '../widgets/card_choice.dart';
+import '../widgets/costume_bottomsheet.dart';
 
 class SoalPage extends StatelessWidget {
   const SoalPage({super.key});
@@ -13,174 +18,62 @@ class SoalPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 140.h,
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              margin: EdgeInsets.only(bottom: 25.h),
-              decoration: BoxDecoration(
-                color: kSecondColor,
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(25),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: kBlackColor.withOpacity(0.3),
-                    blurRadius: 4,
-                    spreadRadius: 1,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Bahasa Indonesia',
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 20.sp,
-                        fontWeight: bold,
+        child: BlocBuilder<ChangeBloc, int>(
+          builder: (context, state) {
+            final int to = state;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 140.h,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  margin: EdgeInsets.only(bottom: 25.h),
+                  decoration: BoxDecoration(
+                    color: kSecondColor,
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(25),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: kBlackColor.withOpacity(0.3),
+                        blurRadius: 4,
+                        spreadRadius: 1,
+                        offset: const Offset(0, 4),
                       ),
-                    ),
-                    SizedBox(height: 15.h),
-                    Row(
-                      children: [
-                        const Icon(Icons.arrow_back_ios_new_outlined),
-                        Expanded(
-                          child: Container(
-                            height: 45.r,
-                            padding: EdgeInsets.symmetric(horizontal: 7.w),
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  SizedBox(height: 4.h),
-                                  Container(
-                                    height: 36.r,
-                                    width: 36.r,
-                                    decoration: BoxDecoration(
-                                      color: kWhiteColor,
-                                      borderRadius:
-                                          BorderRadius.circular(35.r / 2),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: kBlackColor.withOpacity(0.2),
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 6),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "${index + 1}",
-                                        style: blackTextStyle.copyWith(
-                                          fontSize: 12.sp,
-                                          fontWeight: bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              separatorBuilder: (_, index) =>
-                                  const SizedBox(width: 10.0),
-                              itemCount: 10,
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.arrow_forward_ios_sharp),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            BlocBuilder<SoalBloc, SoalState>(
-              builder: (context, state) {
-                if (state is SoalLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state is SoalLoaded) {
-                  final data = state.allSoal[0];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    ],
+                  ),
+                  child: SafeArea(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Soal Nomor 1',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 12.sp,
+                          'Bahasa Indonesia',
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 20.sp,
                             fontWeight: bold,
                           ),
-                          textScaleFactor: 1,
                         ),
-                        SizedBox(height: 22.h),
-                        Text(
-                          replaceTags(data.questionTitle),
-                          style: blackTextStyle.copyWith(fontSize: 13.sp),
-                        ),
-                        ChoiceCard(
-                          alphabet: 'A.',
-                          answer: replaceTags(data.optionA),
-                        ),
-                        ChoiceCard(
-                          alphabet: 'B.',
-                          answer: replaceTags(data.optionB),
-                        ),
-                        ChoiceCard(
-                          alphabet: 'C.',
-                          answer: replaceTags(data.optionC),
-                        ),
-                        ChoiceCard(
-                          alphabet: 'D.',
-                          answer: replaceTags(data.optionD),
-                        ),
-                        ChoiceCard(
-                          alphabet: 'E.',
-                          answer: replaceTags(data.optionE),
-                        ),
-                        SizedBox(height: 32.h),
+                        SizedBox(height: 15.h),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Kembali',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 15,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => showModalBottomSheet(
-                                context: context,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(15.r),
-                                  ),
-                                ),
-                                builder: (context) => Container(
-                                  height: 350.h,
-                                  decoration: BoxDecoration(
-                                    color: kSecondColor,
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(15.r),
-                                    ),
-                                  ),
-                                  child: Column(
+                            const Icon(Icons.arrow_back_ios_new_outlined),
+                            Expanded(
+                              child: Container(
+                                height: 45.r,
+                                padding: EdgeInsets.symmetric(horizontal: 7.w),
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) => Column(
                                     children: [
+                                      SizedBox(height: 4.h),
                                       Container(
-                                        height: 6.h,
-                                        width: 132.w,
-                                        margin: EdgeInsets.only(top: 16.h),
+                                        height: 36.r,
+                                        width: 36.r,
                                         decoration: BoxDecoration(
                                           color: kWhiteColor,
                                           borderRadius:
-                                              BorderRadius.circular(100),
+                                              BorderRadius.circular(35.r / 2),
                                           boxShadow: [
                                             BoxShadow(
                                               color:
@@ -190,121 +83,148 @@ class SoalPage extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      SizedBox(height: 40.h),
-                                      Text(
-                                        'Kumpulin Latihan Soal Sekarang ?',
-                                        style: whiteTextStyle.copyWith(
-                                          fontSize: 16.sp,
-                                          fontWeight: bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 20.h),
-                                      Image.asset(
-                                        "assets/icon_send.png",
-                                        width: 152.w,
-                                        height: 145.h,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      SizedBox(height: 22.h),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.w),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            CostumeButton(
-                                              title: 'Nanti',
-                                              width: 138.w,
-                                              height: 37.h,
-                                              radius: 15.r,
-                                              opacity: 0.1,
-                                              ontap: () {},
+                                        child: Center(
+                                          child: Text(
+                                            "${index + 1}",
+                                            style: blackTextStyle.copyWith(
+                                              fontSize: 12.sp,
+                                              fontWeight: bold,
                                             ),
-                                            CostumeButton(
-                                              title: 'Kirim',
-                                              width: 138.w,
-                                              height: 37.h,
-                                              radius: 15.r,
-                                              opacity: 0.1,
-                                              color: kSecondColor,
-                                              colorTitle: kWhiteColor,
-                                              widthBorder: 1.5,
-                                              ontap: () {},
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                              child: Text(
-                                'Lanjut',
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 15,
-                                  decoration: TextDecoration.underline,
+                                  separatorBuilder: (_, index) =>
+                                      const SizedBox(width: 10.0),
+                                  itemCount: 10,
                                 ),
                               ),
                             ),
+                            const Icon(Icons.arrow_forward_ios_sharp),
                           ],
                         ),
-                        SizedBox(height: 32.h),
                       ],
                     ),
-                  );
-                }
-                return Container();
-              },
-            ),
-          ],
+                  ),
+                ),
+                BlocBuilder<SoalBloc, SoalState>(
+                  builder: (context, state) {
+                    if (state is SoalLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is SoalLoaded) {
+                      final data = state.allSoal[to];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Soal Nomor ${to + 1}',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 12.sp,
+                                fontWeight: bold,
+                              ),
+                              textScaleFactor: 1,
+                            ),
+                            SizedBox(height: 22.h),
+                            Text(
+                              replaceTags(data.questionTitle),
+                              style: blackTextStyle.copyWith(fontSize: 13.sp),
+                            ),
+                            BlocProvider(
+                              create: (context) => ChoiceBloc(),
+                              child: BlocBuilder<ChoiceBloc, String>(
+                                builder: (context, state) {
+                                  return Column(
+                                    children: [
+                                      ChoiceCard(
+                                        alphabet: 'A.',
+                                        answer: data.optionA,
+                                        color: state == 'A',
+                                        event: SelectA(),
+                                      ),
+                                      ChoiceCard(
+                                        alphabet: 'B.',
+                                        answer: data.optionB,
+                                        color: state == 'B',
+                                        event: SelectB(),
+                                      ),
+                                      ChoiceCard(
+                                        alphabet: 'C.',
+                                        answer: data.optionC,
+                                        color: state == 'C',
+                                        event: SelectC(),
+                                      ),
+                                      ChoiceCard(
+                                        alphabet: 'D.',
+                                        answer: data.optionD,
+                                        color: state == 'D',
+                                        event: SelectD(),
+                                      ),
+                                      ChoiceCard(
+                                        alphabet: 'E.',
+                                        answer: data.optionE,
+                                        color: state == 'E',
+                                        event: SelectE(),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 32.h),
+                          ],
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
-    );
-  }
-}
-
-String replaceTags(String text) {
-  text = text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), '');
-  return text;
-}
-
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({
-    super.key,
-    required this.alphabet,
-    required this.answer,
-  });
-
-  final String alphabet, answer;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 20.h),
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.r),
-        border: Border.all(
-          width: 1.0,
-          color: Colors.grey[900]!,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
+        child: BlocBuilder<ChangeBloc, int>(
+          builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                state == 0
+                    ? const Text('')
+                    : GestureDetector(
+                        onTap: () =>
+                            context.read<ChangeBloc>().add(PreviousEvent()),
+                        child: Text(
+                          'Kembali',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.underline,
+                          ),
+                          textScaleFactor: 1,
+                        ),
+                      ),
+                GestureDetector(
+                  onTap: () => state == 9
+                      ? showDialogMaker(context)
+                      : context.read<ChangeBloc>().add(NextEvent()),
+                  child: Text(
+                    'Lanjut',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 15,
+                      decoration: TextDecoration.underline,
+                    ),
+                    textScaleFactor: 1,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
-      ),
-      child: Row(
-        children: [
-          Text(
-            alphabet,
-            style: blackTextStyle.copyWith(fontSize: 11.sp),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Text(
-              answer,
-              style: blackTextStyle.copyWith(fontSize: 11.sp),
-            ),
-          ),
-        ],
       ),
     );
   }
