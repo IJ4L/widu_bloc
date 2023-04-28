@@ -25,7 +25,19 @@ class AllMapelPage extends StatelessWidget {
             BlocBuilder<MapelBloc, MapelState>(
               builder: (context, state) {
                 if (state is MapelLoading) {
-                  return const ShimmerCostume(height: 90);
+                  return Column(
+                    children: [
+                      const ShimmerCostume(height: 90),
+                      SizedBox(height: 20.h),
+                      const ShimmerCostume(height: 90),
+                      SizedBox(height: 20.h),
+                      const ShimmerCostume(height: 90),
+                      SizedBox(height: 20.h),
+                      const ShimmerCostume(height: 90),
+                      SizedBox(height: 20.h),
+                      const ShimmerCostume(height: 90),
+                    ],
+                  );
                 }
                 if (state is MapelLoaded) {
                   final data = state.allMapel;

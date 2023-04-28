@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
+import 'package:widyaedu/ui/widgets/costume_shimmer.dart';
 
 import '../../bloc/choice_bloc.dart';
 import '../util/replace_tag.dart';
@@ -115,7 +116,30 @@ class SoalPage extends StatelessWidget {
                 BlocBuilder<SoalBloc, SoalState>(
                   builder: (context, state) {
                     if (state is SoalLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerCostume(height: 12.sp, width: 80.w),
+                          SizedBox(height: 22.h),
+                          ShimmerCostume(height: 13.sp, width: 140.w),
+                          SizedBox(height: 6.h),
+                          ShimmerCostume(height: 13.sp, width: 200.w),
+                          SizedBox(height: 6.h),
+                          ShimmerCostume(height: 13.sp, width: 200.w),
+                          SizedBox(height: 6.h),
+                          ShimmerCostume(height: 13.sp, width: 180.w),
+                          SizedBox(height: 26.h),
+                          ShimmerCostume(height: 30.h),
+                          SizedBox(height: 16.h),
+                          ShimmerCostume(height: 30.h),
+                          SizedBox(height: 16.h),
+                          ShimmerCostume(height: 30.h),
+                          SizedBox(height: 16.h),
+                          ShimmerCostume(height: 30.h),
+                          SizedBox(height: 16.h),
+                          ShimmerCostume(height: 30.h),
+                        ],
+                      );
                     }
                     if (state is SoalLoaded) {
                       final data = state.allSoal[to];
@@ -137,7 +161,8 @@ class SoalPage extends StatelessWidget {
                                 ? Text(
                                     replaceTags(data.questionTitle),
                                     style: blackTextStyle.copyWith(
-                                        fontSize: 13.sp),
+                                      fontSize: 13.sp,
+                                    ),
                                   )
                                 : Image.network(
                                     data.questionTitleImg,

@@ -9,16 +9,17 @@ class ShimmerCostume extends StatelessWidget {
     super.key,
     required this.height,
     this.width = double.infinity,
+    this.margin = 30,
   });
 
-  final double height, width;
+  final double height, width, margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height.h,
       width: width,
-      margin: EdgeInsets.symmetric(horizontal: 30.w),
+      margin: EdgeInsets.symmetric(horizontal: margin.w),
       child: Shimmer.fromColors(
         baseColor: Colors.grey.shade300,
         highlightColor: Colors.grey.shade100,

@@ -40,8 +40,11 @@ class NilaiPage extends StatelessWidget {
             BlocBuilder<SoalBloc, SoalState>(
               builder: (context, state) {
                 if (state is SoalLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: kWhiteColor),
+                  return SizedBox(
+                    height: 128.h,
+                    child: const Center(
+                      child: CircularProgressIndicator(color: kWhiteColor),
+                    ),
                   );
                 }
 

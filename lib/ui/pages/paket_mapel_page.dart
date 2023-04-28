@@ -30,10 +30,9 @@ class PaketMapelPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is PaketSoalLoading) {
                   return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ShimmerCostume(height: 90, width: 100.w),
-                      ShimmerCostume(height: 90, width: 100.w),
+                      ShimmerCostume(height: 90, width: 150.w, margin: 15),
+                      ShimmerCostume(height: 90, width: 150.w, margin: 15),
                     ],
                   );
                 }
