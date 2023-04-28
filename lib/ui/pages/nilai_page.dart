@@ -75,15 +75,20 @@ class NilaiPage extends StatelessWidget {
             ),
             SizedBox(height: 19.h),
             Center(
-              child: Text(
-                'Lihat Pembahasan',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 15,
-                  fontWeight: bold,
-                  decoration: TextDecoration.underline,
-                  shadows: [defaultShadow],
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/pembahasan-soal');
+                },
+                child: Text(
+                  'Lihat Pembahasan',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 15,
+                    fontWeight: bold,
+                    decoration: TextDecoration.underline,
+                    shadows: [defaultShadow],
+                  ),
+                  textScaleFactor: 1,
                 ),
-                textScaleFactor: 1,
               ),
             )
           ],

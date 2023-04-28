@@ -15,7 +15,7 @@ class SoalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Object? email = ModalRoute.of(context)!.settings.arguments;
+    final List item = ModalRoute.of(context)!.settings.arguments as List;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -28,7 +28,7 @@ class SoalPage extends StatelessWidget {
                 Container(
                   height: 140.h,
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.symmetric(horizontal: 26.w),
                   margin: EdgeInsets.only(bottom: 25.h),
                   decoration: BoxDecoration(
                     color: kSecondColor,
@@ -49,7 +49,7 @@ class SoalPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Bahasa Indonesia',
+                          item[1],
                           style: whiteTextStyle.copyWith(
                             fontSize: 20.sp,
                             fontWeight: bold,
@@ -65,6 +65,7 @@ class SoalPage extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(horizontal: 7.w),
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
+                                  padding: EdgeInsets.zero,
                                   itemBuilder: (context, index) => Column(
                                     children: [
                                       SizedBox(height: 4.h),
@@ -221,7 +222,7 @@ class SoalPage extends StatelessWidget {
                         onTap: () {
                           context.read<SoalBloc>().add(AnswerSoalEvent(
                                 data.exerciseIdFk,
-                                email.toString(),
+                                item[0],
                                 data.bankQuestionId,
                                 context.read<ChoiceBloc>().state,
                               ));
@@ -230,7 +231,7 @@ class SoalPage extends StatelessWidget {
                               ? showDialogMaker(
                                   context,
                                   data.exerciseIdFk,
-                                  email.toString(),
+                                  item[0],
                                 )
                               : context.read<ChangeBloc>().add(NextEvent());
                         },

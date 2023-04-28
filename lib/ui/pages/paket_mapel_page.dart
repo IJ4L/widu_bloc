@@ -16,14 +16,14 @@ class PaketMapelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String email = ModalRoute.of(context)!.settings.arguments as String;
+    final List item = ModalRoute.of(context)!.settings.arguments as List;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CostumeAppbar(title: 'Matematika', shadowText: false),
+            CostumeAppbar(title: item[1], shadowText: false),
             BlocBuilder<PaketSoalBloc, PaketSoalState>(
               builder: (context, state) {
                 if (state is PaketSoalLoaded) {
@@ -49,12 +49,15 @@ class PaketMapelPage extends StatelessWidget {
                           context.read<ChangeBloc>().add(InitalChange());
                           context.read<ChoiceBloc>().add(Initial());
                           context.read<SoalBloc>().add(
-                                LoadSoalEvent(data[index].exerciseId, email),
+                                LoadSoalEvent(
+                                  data[index].exerciseId,
+                                  item[0],
+                                ),
                               );
                           Navigator.pushNamed(
                             context,
                             '/soal',
-                            arguments: email,
+                            arguments: [item[0], data[index].exerciseTitle],
                           );
                         },
                       ),

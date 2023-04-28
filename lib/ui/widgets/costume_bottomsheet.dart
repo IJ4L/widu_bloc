@@ -80,7 +80,6 @@ Future<dynamic> showDialogMaker(
                   colorTitle: kWhiteColor,
                   widthBorder: 1.5,
                   ontap: () {
-                    print(email + ' sheet');
                     context
                         .read<SoalBloc>()
                         .add(LoadSkorEvent(exerciseId, email));

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:widyaedu/models/mapel_model.dart';
 import 'package:widyaedu/models/paket_soal_model.dart';
+import 'package:widyaedu/models/pembahasan_soal_model.dart';
 import 'package:widyaedu/models/skor_model.dart';
 
 import '../models/soal_model.dart';
@@ -81,7 +82,6 @@ class LatihanSoalService {
 
   Future<Either<String, SkorModel>> getDataSkor(
       String exerciseId, String email) async {
-    print('masuk');
     final response = await client.get(
       Uri.parse(
         '$baseUrl/score_result?exercise_id=$exerciseId&user_email=$email',
@@ -90,11 +90,26 @@ class LatihanSoalService {
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print(exerciseId);
-      print(email);
-      print(data['data']);
       if (data['status'] == 0) return Left(data['message']);
       return Right(SkorModel.fromJson(data['data']['result']));
+    }
+    return Left('Request failed with status: ${response.statusCode}');
+  }
+
+  Future<Either<String, List<PembahasanSoalModel>>> getAllPembahasanSoal(
+      String exerciseId, String email) async {
+    final response = await client.get(
+      Uri.parse(
+        '$baseUrl/pembahasan?exercise_id=$exerciseId&user_email=$email',
+      ),
+      headers: {'X-API-Key': apiKey},
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['status'] == 0) return Left(data['message']);
+      return Right(List<PembahasanSoalModel>.from(
+        data['data'].map((x) => PembahasanSoalModel.fromJson(x)),
+      ).toList());
     }
     return Left('Request failed with status: ${response.statusCode}');
   }

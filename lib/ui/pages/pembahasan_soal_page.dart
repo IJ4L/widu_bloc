@@ -16,7 +16,7 @@ class PembahasanSoalPage extends StatelessWidget {
             Container(
               height: 140.h,
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: 26.w),
               margin: EdgeInsets.only(bottom: 25.h),
               decoration: BoxDecoration(
                 color: kSecondColor,
@@ -34,12 +34,15 @@ class PembahasanSoalPage extends StatelessWidget {
               ),
               child: SafeArea(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 16.0),
                     Text(
                       'Bahasa Indonesia',
                       style: whiteTextStyle.copyWith(
-                          fontSize: 20, fontWeight: bold),
+                        fontSize: 20,
+                        fontWeight: bold,
+                      ),
+                      textScaleFactor: 1,
                     ),
                     SizedBox(height: 15.h),
                     Row(
@@ -110,7 +113,7 @@ class PembahasanSoalPage extends StatelessWidget {
                   SizedBox(height: 22.h),
                   Text(
                     'Menurut sejarah, kentang ditanam petani Peru sejak 2.000 tahun lalu pada 1524, saat tentara Spanyol mendarat di sana, kentang, kacang tanah, dan merica mulai dikenal dunia. Seorang tentara Spanyol tertarik pada kentang yang tumbuh subur di Desa Sorocota, di Pegunungan Andes, Peru. Ia membawanya ke Spanyol. Setelah mendarat di Spanyol, ia menyebarkannya ke seluruh penjuru Eropa.Pernyataan yang sesuai dengan isi teks tersebut adalah...',
-                    style: blackTextStyle.copyWith(fontSize: 13.sp),
+                    style: blackTextStyle.copyWith(fontSize: 13),
                     textScaleFactor: 1,
                   ),
                   SizedBox(height: 15.h),
@@ -132,28 +135,10 @@ class PembahasanSoalPage extends StatelessWidget {
                     child: Text(
                       'Teks pada soal menjelaskan tentang sejarah persebaran tanaman kentang. Berdasarkan teks tersebut, kentang dibawa ke Eropa oleh tentara Spanyol dari Peru. Dari sana, kentang mulai menyebar ke seluruh Eropa. Jawaban: A',
                       style: blackTextStyle.copyWith(
-                        fontSize: 11.sp,
+                        fontSize: 11,
                       ),
+                      textScaleFactor: 1,
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Kembali',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      Text(
-                        'Lanjut',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
                   ),
                   SizedBox(height: 32.h),
                 ],
@@ -162,8 +147,28 @@ class PembahasanSoalPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(30.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Kembali',
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            Text(
+              'Lanjut',
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
-
-  static fromJson(x) {}
 }
