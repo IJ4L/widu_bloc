@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
+import 'package:widyaedu/ui/widgets/costume_shimmer.dart';
 
 import '../../bloc/mapel_bloc/mapel_bloc.dart';
 import '../widgets/card_mapel.dart';
@@ -13,7 +14,8 @@ class AllMapelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Object? email = ModalRoute.of(context)!.settings.arguments;
+    final Map<String, dynamic> item =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -22,6 +24,9 @@ class AllMapelPage extends StatelessWidget {
             const CostumeAppbar(title: 'Pilih Pelajaran', shadowText: false),
             BlocBuilder<MapelBloc, MapelState>(
               builder: (context, state) {
+                if (state is MapelLoading) {
+                  return const ShimmerCostume(height: 90);
+                }
                 if (state is MapelLoaded) {
                   final data = state.allMapel;
                   return SizedBox(
@@ -29,41 +34,36 @@ class AllMapelPage extends StatelessWidget {
                     width: double.infinity,
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) => CardMapel(
-                        //Ubah
-                        icon: data[2].urlCover,
-                        namaMapel: data[index].courseName,
-                        done: data[index].jumlahDone,
-                        jumlahPaket: data[index].jumlahMateri,
-                        ontap: () {
-                          context.read<PaketSoalBloc>().add(
-                                LoadPaketEvent(
-                                  data[index].courseId,
-                                  email.toString(),
-                                ),
-                              );
-                          Navigator.pushNamed(
-                            context,
-                            '/paket-mapel',
-                            arguments: {
-                              'email': email,
-                              'courseName': data[index].courseName
-                            },
-                          );
-                        },
-                      ),
+                      primary: false,
+                      itemBuilder: (context, index) {
+                        return CardMapel(
+                          icon: data[2].urlCover,
+                          namaMapel: data[index].courseName,
+                          done: data[index].jumlahDone,
+                          jumlahPaket: data[index].jumlahMateri,
+                          ontap: () {
+                            context.read<PaketSoalBloc>().add(
+                                  LoadPaketEvent(
+                                    data[index].courseId,
+                                    item['email'],
+                                  ),
+                                );
+                            Navigator.pushNamed(
+                              context,
+                              '/paket-mapel',
+                              arguments: {
+                                'email': item['email'],
+                                'courseName': data[index].courseName
+                              },
+                            );
+                          },
+                        );
+                      },
                       separatorBuilder: (_, index) => const SizedBox(height: 0),
                       itemCount: data.length,
                     ),
                   );
                 }
-
-                if (state is MapelLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
                 return Container();
               },
             )

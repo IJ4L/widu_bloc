@@ -10,9 +10,10 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 95.h,
       width: double.infinity,
+      color: Colors.transparent,
       child: Stack(
         children: [
           Align(

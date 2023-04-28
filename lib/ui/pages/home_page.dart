@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
+import 'package:widyaedu/bloc/banner_bloc/banner_bloc.dart';
 import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 import 'package:widyaedu/ui/widgets/navbar_widget.dart';
+
+import '../../bloc/paket_soal_bloc/paket_soal_bloc.dart';
+import '../widgets/card_mapel.dart';
+import '../widgets/costume_shimmer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final String email = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -120,9 +127,10 @@ class HomePage extends StatelessWidget {
                   Text(
                     'Pilihan Pelajaran',
                     style: blackTextStyle.copyWith(
-                      fontSize: 20.sp,
+                      fontSize: 20,
                       fontWeight: bold,
                     ),
+                    textScaleFactor: 1,
                   ),
                   BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
@@ -130,8 +138,11 @@ class HomePage extends StatelessWidget {
                         final data = state.userData;
                         return GestureDetector(
                           onTap: () async {
-                            Navigator.pushNamed(context, '/all-mapel',
-                                arguments: data.userEmail);
+                            Navigator.pushNamed(
+                              context,
+                              '/all-mapel',
+                              arguments: {'email': data.userEmail},
+                            );
                             context
                                 .read<MapelBloc>()
                                 .add(LoadMapelEvent(data.userEmail));
@@ -151,20 +162,63 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20.h),
-            // CardMapel(
-            //   icon: "assets/icon_mtk.png",
-            //   namaMapel: 'Matematika',
-            //   ontap: () => Navigator.pushNamed(
-            //     context,
-            //     '/paket-mapel',
-            //   ),
-            // ),
-            // CardMapel(
-            //   icon: "assets/icon_bio.png",
-            //   namaMapel: 'Biologi',
-            //   ontap: () {},
-            // ),
+            SizedBox(height: 16.h),
+            BlocBuilder<MapelBloc, MapelState>(
+              builder: (context, state) {
+                if (state is MapelLoading) {
+                  return Column(
+                    children: [
+                      const ShimmerCostume(height: 90),
+                      SizedBox(height: 20.h),
+                      const ShimmerCostume(height: 90),
+                    ],
+                  );
+                }
+                if (state is MapelLoaded) {
+                  final allData = state.allMapel;
+                  return SizedBox(
+                    height: 220.h,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final data = allData[index];
+                        if (data.courseId == '136' || data.courseId == '148') {
+                          return CardMapel(
+                            icon: data.urlCover,
+                            namaMapel: data.courseName,
+                            done: data.jumlahDone,
+                            jumlahPaket: data.jumlahMateri,
+                            ontap: () {
+                              context.read<PaketSoalBloc>().add(
+                                    LoadPaketEvent(
+                                      data.courseId,
+                                      email,
+                                    ),
+                                  );
+                              Navigator.pushNamed(
+                                context,
+                                '/paket-mapel',
+                                arguments: {
+                                  'email': email,
+                                  'courseName': data.courseName
+                                },
+                              );
+                            },
+                          );
+                        }
+                        return Container();
+                      },
+                      separatorBuilder: (_, index) => const SizedBox(height: 0),
+                      itemCount: allData.length,
+                    ),
+                  );
+                }
+                return Container();
+              },
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
               child: Text(
@@ -176,23 +230,40 @@ class HomePage extends StatelessWidget {
                 textScaleFactor: 1,
               ),
             ),
-            SizedBox(
-              height: 146.h,
-              width: double.infinity,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => Container(
-                  height: 146.h,
-                  width: 284.w,
-                  margin: EdgeInsets.only(left: 30.w),
-                  decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                separatorBuilder: (_, index) => const SizedBox(width: 10.0),
-                itemCount: 3,
-              ),
+            BlocBuilder<BannerBloc, BannerState>(
+              builder: (context, state) {
+                if (state is BannerLoading) {
+                  return const ShimmerCostume(height: 146);
+                }
+                if (state is BannerLoaded) {
+                  return SizedBox(
+                    height: 146.h,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final data = state.allBanner[index];
+                        return Container(
+                          height: 146.h,
+                          width: 284.w,
+                          margin: EdgeInsets.only(left: 30.w),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(data.eventImage),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (_, index) =>
+                          const SizedBox(width: 10.0),
+                      itemCount: state.allBanner.length,
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
           ],
         ),

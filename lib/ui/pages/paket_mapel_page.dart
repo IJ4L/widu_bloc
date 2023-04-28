@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
+import 'package:widyaedu/ui/widgets/costume_shimmer.dart';
 
 import '../../bloc/choice_bloc.dart';
 import '../../shared/theme.dart';
@@ -27,6 +28,15 @@ class PaketMapelPage extends StatelessWidget {
             CostumeAppbar(title: item['courseName'], shadowText: false),
             BlocBuilder<PaketSoalBloc, PaketSoalState>(
               builder: (context, state) {
+                if (state is PaketSoalLoading) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ShimmerCostume(height: 90, width: 100.w),
+                      ShimmerCostume(height: 90, width: 100.w),
+                    ],
+                  );
+                }
                 if (state is PaketSoalLoaded) {
                   final data = state.allPaketMapel;
                   return Container(
@@ -69,11 +79,6 @@ class PaketMapelPage extends StatelessWidget {
                         );
                       },
                     ),
-                  );
-                }
-                if (state is PaketSoalLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
                   );
                 }
                 return Container();

@@ -55,6 +55,7 @@ class SoalPage extends StatelessWidget {
                             fontSize: 20.sp,
                             fontWeight: bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 15.h),
                         Row(
@@ -148,30 +149,35 @@ class SoalPage extends StatelessWidget {
                                     ChoiceCard(
                                       alphabet: 'A.',
                                       answer: data.optionA,
+                                      imgAnswer: data.optionAImg,
                                       color: state == 'A',
                                       event: SelectA(),
                                     ),
                                     ChoiceCard(
                                       alphabet: 'B.',
                                       answer: data.optionB,
+                                      imgAnswer: data.optionBImg,
                                       color: state == 'B',
                                       event: SelectB(),
                                     ),
                                     ChoiceCard(
                                       alphabet: 'C.',
                                       answer: data.optionC,
+                                      imgAnswer: data.optionCImg,
                                       color: state == 'C',
                                       event: SelectC(),
                                     ),
                                     ChoiceCard(
                                       alphabet: 'D.',
                                       answer: data.optionD,
+                                      imgAnswer: data.optionDImg,
                                       color: state == 'D',
                                       event: SelectD(),
                                     ),
                                     ChoiceCard(
                                       alphabet: 'E.',
                                       answer: data.optionE,
+                                      imgAnswer: data.optionEImg,
                                       color: state == 'E',
                                       event: SelectE(),
                                     ),

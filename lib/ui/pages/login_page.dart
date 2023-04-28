@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
+import 'package:widyaedu/bloc/banner_bloc/banner_bloc.dart';
+import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 
 import '../widgets/costume_button.dart';
@@ -43,7 +45,14 @@ class LoginPage extends StatelessWidget {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is Authenticated) {
-                Navigator.pushReplacementNamed(context, '/home');
+                final data = state.userData;
+                context.read<MapelBloc>().add(LoadMapelEvent(data.userEmail));
+                context.read<BannerBloc>().add(LoadBannerEvent());
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/home',
+                  arguments: data.userEmail,
+                );
               }
 
               if (state is Unauthenticated) {}

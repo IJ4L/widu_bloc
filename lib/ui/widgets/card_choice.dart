@@ -13,16 +13,20 @@ class ChoiceCard extends StatelessWidget {
     required this.answer,
     required this.color,
     required this.event,
+    required this.imgAnswer,
   });
 
   final String alphabet, answer;
+  final dynamic imgAnswer;
   final bool color;
   final ChoiceEvent event;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.read<ChoiceBloc>().add(event),
+      onTap: () {
+        context.read<ChoiceBloc>().add(event);
+      },
       child: Container(
         margin: EdgeInsets.only(top: 20.h),
         padding: EdgeInsets.all(16.r),
@@ -41,13 +45,20 @@ class ChoiceCard extends StatelessWidget {
               style: blackTextStyle.copyWith(fontSize: 11.sp),
             ),
             SizedBox(width: 16.w),
-            Expanded(
-              child: Text(
-                replaceTags(answer),
-                style: blackTextStyle.copyWith(fontSize: 11.sp),
-                maxLines: answer.length > 100 ? 2 : 1,
-              ),
-            ),
+            imgAnswer == null
+                ? Expanded(
+                    child: Text(
+                      replaceTags(answer),
+                      style: blackTextStyle.copyWith(fontSize: 11.sp),
+                      maxLines: answer.length > 100 ? 2 : 1,
+                    ),
+                  )
+                : Image.network(
+                    "https://images.unsplash.com/flagged/photo-1559502867-c406bd78ff24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80",
+                    width: 200.0,
+                    height: 200.0,
+                    fit: BoxFit.cover,
+                  ),
           ],
         ),
       ),
