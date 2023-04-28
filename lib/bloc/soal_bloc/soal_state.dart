@@ -42,3 +42,11 @@ class SoalGetSkor extends SoalState {
   @override
   List<Object> get props => [skor];
 }
+
+class LoadPembahasan extends SoalState {
+  final List<PembahasanSoalModel> allPembahasan;
+  const LoadPembahasan(this.allPembahasan);
+
+  @override
+  List<Object> get props => [allPembahasan];
+}

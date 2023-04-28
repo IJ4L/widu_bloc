@@ -10,7 +10,8 @@ class NilaiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List data = ModalRoute.of(context)!.settings.arguments as List;
+    final Map<String, dynamic> data =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: Center(
@@ -59,8 +60,21 @@ class NilaiPage extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   context.read<ChangeBloc>().add(InitalChange());
-                  context.read<SoalBloc>().add(LoadSoalEvent(data[1], data[0]));
-                  Navigator.pushNamed(context, '/soal', arguments: data[0]);
+                  context.read<SoalBloc>().add(
+                        LoadSoalEvent(
+                          data['exerciseId'],
+                          data['email'],
+                        ),
+                      );
+                  Navigator.pushNamed(
+                    context,
+                    '/soal',
+                    arguments: {
+                      'exerciseId': data['exerciseId'],
+                      'email': data['email'],
+                      'title': data['title'],
+                    },
+                  );
                 },
                 child: Text(
                   'Kerjakan Ulang',
@@ -77,7 +91,20 @@ class NilaiPage extends StatelessWidget {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/pembahasan-soal');
+                  context.read<ChangeBloc>().add(InitalChange());
+                  context.read<SoalBloc>().add(
+                        LoadPembahasanEvent(
+                          data['exerciseId'],
+                          data['email'],
+                        ),
+                      );
+                  Navigator.pushNamed(
+                    context,
+                    '/pembahasan-soal',
+                    arguments: {
+                      'title': data['title'],
+                    },
+                  );
                 },
                 child: Text(
                   'Lihat Pembahasan',

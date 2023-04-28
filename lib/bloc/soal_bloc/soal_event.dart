@@ -35,3 +35,11 @@ class LoadSkorEvent extends SoalEvent {
   @override
   List<Object> get props => [exerciseId];
 }
+
+class LoadPembahasanEvent extends SoalEvent {
+  final String exerciseId, email;
+  const LoadPembahasanEvent(this.exerciseId, this.email);
+
+  @override
+  List<Object> get props => [exerciseId];
+}

@@ -15,7 +15,8 @@ class SoalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List item = ModalRoute.of(context)!.settings.arguments as List;
+    final Map<String, dynamic> item =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
@@ -49,7 +50,7 @@ class SoalPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          item[1],
+                          item['title'],
                           style: whiteTextStyle.copyWith(
                             fontSize: 20.sp,
                             fontWeight: bold,
@@ -220,18 +221,21 @@ class SoalPage extends StatelessWidget {
                       final data = state.allSoal[index];
                       return GestureDetector(
                         onTap: () {
-                          context.read<SoalBloc>().add(AnswerSoalEvent(
-                                data.exerciseIdFk,
-                                item[0],
-                                data.bankQuestionId,
-                                context.read<ChoiceBloc>().state,
-                              ));
+                          context.read<SoalBloc>().add(
+                                AnswerSoalEvent(
+                                  data.exerciseIdFk,
+                                  item['email'],
+                                  data.bankQuestionId,
+                                  context.read<ChoiceBloc>().state,
+                                ),
+                              );
                           context.read<ChoiceBloc>().add(Initial());
                           index == 9
                               ? showDialogMaker(
                                   context,
                                   data.exerciseIdFk,
-                                  item[0],
+                                  item['email'],
+                                  item['title'],
                                 )
                               : context.read<ChangeBloc>().add(NextEvent());
                         },

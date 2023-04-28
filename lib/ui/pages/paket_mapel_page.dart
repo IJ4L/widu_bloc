@@ -16,14 +16,15 @@ class PaketMapelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List item = ModalRoute.of(context)!.settings.arguments as List;
+    final Map<String, dynamic> item =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CostumeAppbar(title: item[1], shadowText: false),
+            CostumeAppbar(title: item['courseName'], shadowText: false),
             BlocBuilder<PaketSoalBloc, PaketSoalState>(
               builder: (context, state) {
                 if (state is PaketSoalLoaded) {
@@ -41,26 +42,32 @@ class PaketMapelPage extends StatelessWidget {
                         crossAxisSpacing: 0.h,
                         childAspectRatio: 1.5,
                       ),
-                      itemBuilder: (context, index) => CardPaketSoal(
-                        title: data[index].exerciseTitle,
-                        done: data[index].jumlahDone,
-                        jumlahSoal: int.parse(data[index].jumlahSoal),
-                        ontap: () {
-                          context.read<ChangeBloc>().add(InitalChange());
-                          context.read<ChoiceBloc>().add(Initial());
-                          context.read<SoalBloc>().add(
-                                LoadSoalEvent(
-                                  data[index].exerciseId,
-                                  item[0],
-                                ),
-                              );
-                          Navigator.pushNamed(
-                            context,
-                            '/soal',
-                            arguments: [item[0], data[index].exerciseTitle],
-                          );
-                        },
-                      ),
+                      itemBuilder: (context, index) {
+                        final file = data[index];
+                        return CardPaketSoal(
+                          title: file.exerciseTitle,
+                          done: file.jumlahDone,
+                          jumlahSoal: int.parse(data[index].jumlahSoal),
+                          ontap: () {
+                            context.read<ChangeBloc>().add(InitalChange());
+                            context.read<ChoiceBloc>().add(Initial());
+                            context.read<SoalBloc>().add(
+                                  LoadSoalEvent(
+                                    file.exerciseId,
+                                    item['email'],
+                                  ),
+                                );
+                            Navigator.pushNamed(
+                              context,
+                              '/soal',
+                              arguments: {
+                                'email': item['email'],
+                                'title': file.exerciseTitle
+                              },
+                            );
+                          },
+                        );
+                      },
                     ),
                   );
                 }

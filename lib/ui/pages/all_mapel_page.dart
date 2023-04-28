@@ -30,6 +30,7 @@ class AllMapelPage extends StatelessWidget {
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) => CardMapel(
+                        //Ubah
                         icon: data[2].urlCover,
                         namaMapel: data[index].courseName,
                         done: data[index].jumlahDone,
@@ -41,8 +42,14 @@ class AllMapelPage extends StatelessWidget {
                                   email.toString(),
                                 ),
                               );
-                          Navigator.pushNamed(context, '/paket-mapel',
-                              arguments: [email, data[index].courseName]);
+                          Navigator.pushNamed(
+                            context,
+                            '/paket-mapel',
+                            arguments: {
+                              'email': email,
+                              'courseName': data[index].courseName
+                            },
+                          );
                         },
                       ),
                       separatorBuilder: (_, index) => const SizedBox(height: 0),

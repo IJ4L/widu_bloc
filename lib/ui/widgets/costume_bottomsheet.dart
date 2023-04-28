@@ -7,7 +7,11 @@ import '../../shared/theme.dart';
 import 'costume_button.dart';
 
 Future<dynamic> showDialogMaker(
-    BuildContext context, String exerciseId, String email) {
+  BuildContext context,
+  String exerciseId,
+  String email,
+  String title,
+) {
   return showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -80,11 +84,21 @@ Future<dynamic> showDialogMaker(
                   colorTitle: kWhiteColor,
                   widthBorder: 1.5,
                   ontap: () {
-                    context
-                        .read<SoalBloc>()
-                        .add(LoadSkorEvent(exerciseId, email));
-                    Navigator.pushNamed(context, '/nilai',
-                        arguments: [email, exerciseId]);
+                    context.read<SoalBloc>().add(
+                          LoadSkorEvent(
+                            exerciseId,
+                            email,
+                          ),
+                        );
+                    Navigator.pushNamed(
+                      context,
+                      '/nilai',
+                      arguments: {
+                        'email': email,
+                        'exerciseId': exerciseId,
+                        'title': title
+                      },
+                    );
                   },
                 ),
               ],
