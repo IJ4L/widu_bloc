@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final soalModel = soalModelFromJson
 import 'dart:convert';
 
 SoalModel soalModelFromJson(String str) => SoalModel.fromJson(json.decode(str));

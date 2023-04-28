@@ -3,8 +3,6 @@ import 'dart:convert';
 PaketModel paketModelFromJson(String str) =>
     PaketModel.fromJson(json.decode(str));
 
-String paketModelToJson(PaketModel data) => json.encode(data.toJson());
-
 class PaketModel {
   PaketModel({
     required this.exerciseId,
@@ -33,14 +31,4 @@ class PaketModel {
         jumlahSoal: json["jumlah_soal"],
         jumlahDone: json["jumlah_done"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "exercise_id": exerciseId,
-        "exercise_title": exerciseTitle,
-        "access_type": accessType,
-        "icon": icon,
-        "exercise_user_status": exerciseUserStatus,
-        "jumlah_soal": jumlahSoal,
-        "jumlah_done": jumlahDone,
-      };
 }

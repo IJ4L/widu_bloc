@@ -3,8 +3,6 @@ import 'dart:convert';
 MapelModel mapelModelFromJson(String str) =>
     MapelModel.fromJson(json.decode(str));
 
-String mapelModelToJson(MapelModel data) => json.encode(data.toJson());
-
 class MapelModel {
   MapelModel({
     required this.courseId,
@@ -36,15 +34,4 @@ class MapelModel {
         jumlahDone: json["jumlah_done"],
         progress: json["progress"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "course_id": courseId,
-        "major_name": majorName,
-        "course_category": courseCategory,
-        "course_name": courseName,
-        "url_cover": urlCover,
-        "jumlah_materi": jumlahMateri,
-        "jumlah_done": jumlahDone,
-        "progress": progress,
-      };
 }
