@@ -202,7 +202,7 @@ class HomePage extends StatelessWidget {
                                 '/paket-mapel',
                                 arguments: {
                                   'email': email,
-                                  'courseName': data.courseName
+                                  'courseName': data.courseName,
                                 },
                               );
                             },

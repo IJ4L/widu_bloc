@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
-import 'package:widyaedu/ui/widgets/costume_shimmer.dart';
 
 import '../../bloc/choice_bloc.dart';
 import '../../shared/theme.dart';
@@ -30,9 +30,11 @@ class PaketMapelPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is PaketSoalLoading) {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ShimmerCostume(height: 90, width: 150.w, margin: 15),
-                      ShimmerCostume(height: 90, width: 150.w, margin: 15),
+                      const ShimmerSmall(),
+                      SizedBox(width: 20.h),
+                      const ShimmerSmall(),
                     ],
                   );
                 }
@@ -87,6 +89,31 @@ class PaketMapelPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const Navbar(),
+    );
+  }
+}
+
+class ShimmerSmall extends StatelessWidget {
+  const ShimmerSmall({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 90.h,
+      width: 200,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(defaulRadius),
+          ),
+        ),
+      ),
     );
   }
 }

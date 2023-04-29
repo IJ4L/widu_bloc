@@ -51,5 +51,8 @@ class SoalBloc extends Bloc<SoalEvent, SoalState> {
         ),
       );
     });
+    on<DoneTestEvent>((event, emit) async {
+      await latihanSoalService.doneTest(event.email, event.exerciseId);
+    });
   }
 }

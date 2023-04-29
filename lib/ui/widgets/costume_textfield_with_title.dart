@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:widyaedu/ui/util/valodator_texfield.dart';
+import 'package:widyaedu/ui/util/validator_texfield.dart';
 
 import '../../shared/theme.dart';
 

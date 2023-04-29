@@ -84,6 +84,9 @@ Future<dynamic> showDialogMaker(
                   colorTitle: kWhiteColor,
                   widthBorder: 1.5,
                   ontap: () {
+                    context
+                        .read<SoalBloc>()
+                        .add(DoneTestEvent(exerciseId, email));
                     context.read<SoalBloc>().add(
                           LoadSkorEvent(
                             exerciseId,

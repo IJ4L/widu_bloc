@@ -113,4 +113,17 @@ class LatihanSoalService {
     }
     return Left('Request failed with status: ${response.statusCode}');
   }
+
+  Future<String> doneTest(String exerciseId, String email) async {
+    final response = await client.post(
+      Uri.parse('$baseUrl/donetest'),
+      headers: {'X-API-Key': apiKey},
+      body: {
+        'user_email': email,
+        'exercise_id': exerciseId,
+      },
+    );
+    final data = jsonDecode(response.body);
+    return '${data['message']}';
+  }
 }

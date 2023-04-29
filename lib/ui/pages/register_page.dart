@@ -36,7 +36,10 @@ class _RegisterPageState extends State<RegisterPage> {
             children: [
               const CostumeAppbar(title: 'Registrasi'),
               CostumeTexfield(
-                  title: 'Email', controller: email, validator: false),
+                title: 'Email',
+                controller: email,
+                validator: false,
+              ),
               CostumeTexfield(title: 'Nama Lengkap', controller: namaLengkap),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 37.w),
@@ -84,28 +87,29 @@ class _RegisterPageState extends State<RegisterPage> {
                 builder: (context, state) {
                   return Center(
                     child: CostumeButton(
-                        title: 'Daftar',
-                        height: 45.h,
-                        width: 127.w,
-                        radius: 10,
-                        color: kSecondColor,
-                        colorTitle: kWhiteColor,
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        fontWeight: bold,
-                        ontap: () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<AuthBloc>().add(
-                                  RegisterEvent(
-                                    email.text,
-                                    namaLengkap.text,
-                                    genderBloc.state,
-                                    kelas.text,
-                                    namaSekolah.text,
-                                  ),
-                                );
-                          }
-                        }),
+                      title: 'Daftar',
+                      height: 45.h,
+                      width: 127.w,
+                      radius: 10,
+                      color: kSecondColor,
+                      colorTitle: kWhiteColor,
+                      blurRadius: 1,
+                      spreadRadius: 1,
+                      fontWeight: bold,
+                      ontap: () {
+                        if (formKey.currentState!.validate()) {
+                          context.read<AuthBloc>().add(
+                                RegisterEvent(
+                                  email.text,
+                                  namaLengkap.text,
+                                  genderBloc.state,
+                                  kelas.text,
+                                  namaSekolah.text,
+                                ),
+                              );
+                        }
+                      },
+                    ),
                   );
                 },
               )
