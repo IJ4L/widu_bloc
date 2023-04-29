@@ -106,6 +106,7 @@ class NilaiPage extends StatelessWidget {
                     '/pembahasan-soal',
                     arguments: {
                       'title': data['title'],
+                      'email': data['email'],
                     },
                   );
                 },

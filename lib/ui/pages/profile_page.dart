@@ -80,15 +80,18 @@ class ProfilePage extends StatelessWidget {
                     CardInfoProfile(
                         title: 'Nama Sekolah', subtitle: data.userAsalSekolah),
                     SizedBox(height: 10.h),
-                    Center(
-                      child: Text(
-                        'Edit Akun',
-                        style: whiteTextStyle.copyWith(
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                          shadows: [defaultShadow],
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/register'),
+                      child: Center(
+                        child: Text(
+                          'Edit Akun',
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 15,
+                            decoration: TextDecoration.underline,
+                            shadows: [defaultShadow],
+                          ),
+                          textScaleFactor: 1,
                         ),
-                        textScaleFactor: 1,
                       ),
                     ),
                   ],

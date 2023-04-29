@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/ui/util/valodator_texfield.dart';
 
 import '../../shared/theme.dart';
 
@@ -9,11 +10,13 @@ class CostumeTexfield extends StatelessWidget {
     required this.title,
     this.decoration = TextDecoration.none,
     required this.controller,
+    this.validator = true,
   });
 
   final String title;
   final TextDecoration decoration;
   final TextEditingController controller;
+  final bool validator;
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +48,16 @@ class CostumeTexfield extends StatelessWidget {
                 ),
               ],
             ),
-            child: TextField(
+            child: TextFormField(
               controller: controller,
               cursorColor: kBlackColor,
               style: blackTextStyle.copyWith(
                 fontSize: 16.sp,
                 decoration: decoration,
               ),
+              validator: (value) => validator
+                  ? Validator.required(value)
+                  : Validator.email(value),
               decoration: InputDecoration(
                 fillColor: kGreyColor,
                 filled: true,

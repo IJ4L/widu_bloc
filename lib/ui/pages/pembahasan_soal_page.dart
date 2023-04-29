@@ -217,7 +217,11 @@ class PembahasanSoalPage extends StatelessWidget {
                       return GestureDetector(
                         onTap: () => index != 9
                             ? context.read<ChangeBloc>().add(NextEvent())
-                            : Navigator.pushReplacementNamed(context, '/home'),
+                            : Navigator.pushReplacementNamed(
+                                context,
+                                '/home',
+                                arguments: item['email'],
+                              ),
                         child: Text(
                           'Lanjut',
                           style: blackTextStyle.copyWith(
