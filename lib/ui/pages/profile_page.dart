@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widyaedu/bloc/auth_bloc/auth_bloc.dart';
+import 'package:widyaedu/bloc/gender_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 
 import '../widgets/card_info_profile.dart';
@@ -81,7 +82,22 @@ class ProfilePage extends StatelessWidget {
                         title: 'Nama Sekolah', subtitle: data.userAsalSekolah),
                     SizedBox(height: 10.h),
                     GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, '/register'),
+                      onTap: () {
+                        context
+                            .read<GenderBloc>()
+                            .add(EditGender(data.userGender));
+                        Navigator.pushNamed(
+                          context,
+                          '/register',
+                          arguments: {
+                            'edit': 'true',
+                            'nama': data.userName,
+                            'email': data.userEmail,
+                            'kelas': data.kelas,
+                            'namaSekolah': data.userAsalSekolah,
+                          },
+                        );
+                      },
                       child: Center(
                         child: Text(
                           'Edit Akun',

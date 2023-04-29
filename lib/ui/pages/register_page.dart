@@ -19,11 +19,22 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> item =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final TextEditingController email = TextEditingController(text: '');
-    final TextEditingController namaLengkap = TextEditingController(text: '');
-    final TextEditingController kelas = TextEditingController(text: '');
-    final TextEditingController namaSekolah = TextEditingController(text: '');
+    final TextEditingController email = TextEditingController(
+      text: item['edit'] == 'true' ? item['email'] : '',
+    );
+    final TextEditingController namaLengkap = TextEditingController(
+      text: item['edit'] == 'true' ? item['nama'] : '',
+    );
+    final TextEditingController kelas = TextEditingController(
+      text: item['edit'] == 'true' ? item['kelas'] : '',
+    );
+    final TextEditingController namaSekolah = TextEditingController(
+      text: item['edit'] == 'true' ? item['namaSekolah'] : '',
+    );
 
     final GenderBloc genderBloc = context.read<GenderBloc>();
     return Scaffold(
