@@ -18,3 +18,19 @@ class RegisterEvent extends AuthEvent {
   const RegisterEvent(
       this.email, this.namaLengkap, this.gender, this.kelas, this.namaSekolah);
 }
+
+class EditProfileEvent extends AuthEvent {
+  final String email, namaLengkap, namaSekolah, kelas, gender, foto;
+  const EditProfileEvent(
+    this.email,
+    this.namaLengkap,
+    this.namaSekolah,
+    this.kelas,
+    this.gender,
+    this.foto,
+  );
+
+  @override
+  List<Object> get props =>
+      [email, namaLengkap, namaSekolah, kelas, gender, foto];
+}

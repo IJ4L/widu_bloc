@@ -28,5 +28,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (status) => emit(SucsessRegister(status)),
       );
     });
+    on<EditProfileEvent>((event, emit) async {
+      emit(LoadingAuth());
+      final result = await authServices.updateDataUser(
+        event.email,
+        event.namaLengkap,
+        event.namaSekolah,
+        event.kelas,
+        event.gender,
+        event.foto,
+      );
+
+      result.fold((message) => emit(Unauthenticated(message)),
+          (data) => emit(Authenticated(data)));
+    });
   }
 }

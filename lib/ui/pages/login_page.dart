@@ -55,7 +55,13 @@ class LoginPage extends StatelessWidget {
                 );
               }
 
-              if (state is Unauthenticated) {}
+              if (state is Unauthenticated) {
+                Navigator.pushNamed(context, '/register', arguments: {
+                  'edit': 'false',
+                  'redirect': 'true',
+                  'email': state.message,
+                });
+              }
             },
             builder: (context, state) {
               return CostumeButton(
@@ -100,7 +106,14 @@ class LoginPage extends StatelessWidget {
             color: kSecondColor,
             colorTitle: kWhiteColor,
             fontWeight: bold,
-            ontap: () => Navigator.pushNamed(context, '/register'),
+            ontap: () => Navigator.pushNamed(
+              context,
+              '/register',
+              arguments: {
+                'edit': 'false',
+                'redirect': 'false',
+              },
+            ),
           ),
         ],
       ),

@@ -89,7 +89,7 @@ class AuthServices {
       final data = await getDataUser(currentUser!.email);
       return data.fold(
         (message) {
-          return Left(message);
+          return Left(currentUser!.email);
         },
         (data) {
           if (data.userFoto == 'url foto') {

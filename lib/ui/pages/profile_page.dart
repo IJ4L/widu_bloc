@@ -95,6 +95,8 @@ class ProfilePage extends StatelessWidget {
                             'email': data.userEmail,
                             'kelas': data.kelas,
                             'namaSekolah': data.userAsalSekolah,
+                            'foto': data.userFoto,
+                            'redirect': 'true',
                           },
                         );
                       },
