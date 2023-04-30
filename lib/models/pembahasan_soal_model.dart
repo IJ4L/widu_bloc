@@ -3,6 +3,9 @@ import 'dart:convert';
 PembahasanSoalModel pembahasanSoalModelFromJson(String str) =>
     PembahasanSoalModel.fromJson(json.decode(str));
 
+String pembahasanSoalModelToJson(PembahasanSoalModel data) =>
+    json.encode(data.toJson());
+
 class PembahasanSoalModel {
   final String exerciseIdFk;
   final String bankQuestionId;
@@ -20,7 +23,7 @@ class PembahasanSoalModel {
   final dynamic optionEImg;
   final String correctAnswer;
   final String discussion;
-  final String discussionImg;
+  final dynamic discussionImg;
   final String studentAnswer;
 
   PembahasanSoalModel({
@@ -65,4 +68,25 @@ class PembahasanSoalModel {
         discussionImg: json["discussion_img"],
         studentAnswer: json["student_answer"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "exercise_id_fk": exerciseIdFk,
+        "bank_question_id": bankQuestionId,
+        "question_title": questionTitle,
+        "question_title_img": questionTitleImg,
+        "option_a": optionA,
+        "option_a_img": optionAImg,
+        "option_b": optionB,
+        "option_b_img": optionBImg,
+        "option_c": optionC,
+        "option_c_img": optionCImg,
+        "option_d": optionD,
+        "option_d_img": optionDImg,
+        "option_e": optionE,
+        "option_e_img": optionEImg,
+        "correct_answer": correctAnswer,
+        "discussion": discussion,
+        "discussion_img": discussionImg,
+        "student_answer": studentAnswer,
+      };
 }

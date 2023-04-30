@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
 import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
 import 'package:widyaedu/shared/theme.dart';
 import 'package:widyaedu/ui/util/replace_tag.dart';
+
+import '../widgets/costume_shimmer.dart';
 
 class PembahasanSoalPage extends StatelessWidget {
   const PembahasanSoalPage({super.key});
@@ -53,6 +56,7 @@ class PembahasanSoalPage extends StatelessWidget {
                               fontSize: 20.sp,
                               fontWeight: bold,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 15.h),
                           Row(
@@ -127,8 +131,15 @@ class PembahasanSoalPage extends StatelessWidget {
                         BlocBuilder<SoalBloc, SoalState>(
                           builder: (context, state) {
                             if (state is SoalLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ShimmerCostume(height: 12.sp, width: 80.w),
+                                  SizedBox(height: 22.h),
+                                  ShimmerCostume(height: 12.sp, width: 80.w),
+                                  SizedBox(height: 22.h),
+                                  ShimmerCostume(height: 30.sp, width: 140.w),
+                                ],
                               );
                             }
                             if (state is LoadPembahasan) {
@@ -220,11 +231,16 @@ class PembahasanSoalPage extends StatelessWidget {
                         return GestureDetector(
                           onTap: () => index != 9
                               ? context.read<ChangeBloc>().add(NextEvent())
-                              : Navigator.pushReplacementNamed(
-                                  context,
-                                  '/home',
-                                  arguments: item['email'],
-                                ),
+                              : {
+                                  context
+                                      .read<MapelBloc>()
+                                      .add(LoadMapelEvent(item['email'])),
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    '/home',
+                                    arguments: item['email'],
+                                  ),
+                                },
                           child: Text(
                             'Lanjut',
                             style: blackTextStyle.copyWith(

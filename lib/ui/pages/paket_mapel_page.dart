@@ -29,13 +29,16 @@ class PaketMapelPage extends StatelessWidget {
             BlocBuilder<PaketSoalBloc, PaketSoalState>(
               builder: (context, state) {
                 if (state is PaketSoalLoading) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const ShimmerSmall(),
-                      SizedBox(width: 20.h),
-                      const ShimmerSmall(),
-                    ],
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const ShimmerSmall(),
+                        SizedBox(width: 16.w),
+                        const ShimmerSmall(),
+                      ],
+                    ),
                   );
                 }
                 if (state is PaketSoalLoaded) {
@@ -102,7 +105,7 @@ class ShimmerSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 90.h,
-      width: 200,
+      width: 160.w,
       child: Shimmer.fromColors(
         baseColor: Colors.grey.shade300,
         highlightColor: Colors.grey.shade100,
