@@ -28,9 +28,9 @@ class PembahasanSoalPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 140.h,
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 26.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 26.w, vertical: 10.h),
                     margin: EdgeInsets.only(bottom: 25.h),
                     decoration: BoxDecoration(
                       color: kSecondColor,

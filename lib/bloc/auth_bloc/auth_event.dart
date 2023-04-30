@@ -11,6 +11,10 @@ class LoggedInEvent extends AuthEvent {}
 
 class LoggedOutEvent extends AuthEvent {}
 
+class AutoLoginEvent extends AuthEvent {}
+
+class LogoutEvent extends AuthEvent {}
+
 class RegisterEvent extends AuthEvent {
   final String email, namaLengkap;
   final String namaSekolah, kelas, gender;

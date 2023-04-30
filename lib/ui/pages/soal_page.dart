@@ -30,9 +30,9 @@ class SoalPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 140.h,
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 26.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 26.w, vertical: 10.h),
                     margin: EdgeInsets.only(bottom: 25.h),
                     decoration: BoxDecoration(
                       color: kSecondColor,
@@ -68,7 +68,7 @@ class SoalPage extends StatelessWidget {
                                 child: Container(
                                   height: 45.r,
                                   padding:
-                                      EdgeInsets.symmetric(horizontal: 7.w),
+                                      EdgeInsets.symmetric(horizontal: 3.w),
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     padding: EdgeInsets.zero,

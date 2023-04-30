@@ -120,7 +120,10 @@ class ProfilePage extends StatelessWidget {
           ),
           SizedBox(height: 19.h),
           GestureDetector(
-            onTap: () => Navigator.pushReplacementNamed(context, '/'),
+            onTap: () {
+              context.read<AuthBloc>().add(LogoutEvent());
+              Navigator.pushReplacementNamed(context, '/');
+            },
             child: Center(
               child: Text(
                 'Logout Akun',

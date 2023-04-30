@@ -8,8 +8,19 @@ import 'package:widyaedu/shared/theme.dart';
 
 import '../widgets/costume_button.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    context.read<AuthBloc>().add(AutoLoginEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +67,14 @@ class LoginPage extends StatelessWidget {
               }
 
               if (state is Unauthenticated) {
-                Navigator.pushNamed(context, '/register', arguments: {
-                  'edit': 'false',
-                  'redirect': 'true',
-                  'email': state.message,
-                });
+                if (state.message == 'Gagal Login') {
+                } else {
+                  Navigator.pushNamed(context, '/register', arguments: {
+                    'edit': 'false',
+                    'redirect': 'true',
+                    'email': state.message,
+                  });
+                }
               }
             },
             builder: (context, state) {

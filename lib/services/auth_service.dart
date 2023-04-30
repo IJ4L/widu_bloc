@@ -16,6 +16,10 @@ class AuthServices {
   final String userBaseUrl = 'https://edspert.widyaedu.com/users';
   final String apiKeyUser = '18be70c0-4e4d-44ff-a475-50c51ece99a0';
 
+  GoogleSignIn googleSignIn = GoogleSignIn();
+  GoogleSignInAccount? currentUser;
+  UserCredential? userCredential;
+
   Future<Either<String, UserModel>> getDataUser(String email) async {
     final response = await client.get(
       Uri.parse('$userBaseUrl?email=$email'),
@@ -144,5 +148,55 @@ class AuthServices {
     }
 
     return const Right('Sucsess Register');
+  }
+
+  Future<Either<String, UserModel>> autoLogin() async {
+    UserModel user;
+
+    final isSignIn = await googleSignIn.isSignedIn();
+
+    if (isSignIn) {
+      await googleSignIn.signInSilently().then((value) => currentUser = value);
+
+      final data = await getDataUser(currentUser!.email);
+
+      return data.fold(
+        (message) {
+          return Left(currentUser!.email);
+        },
+        (data) {
+          if (data.userFoto == 'url foto') {
+            updateDataUser(
+              data.userEmail,
+              data.userName,
+              data.userAsalSekolah,
+              data.kelas,
+              data.userGender,
+              currentUser!.photoUrl.toString(),
+            );
+
+            user = UserModel(
+              iduser: data.iduser,
+              userName: data.userName,
+              userEmail: data.userEmail,
+              userFoto: currentUser!.photoUrl.toString(),
+              userAsalSekolah: data.userAsalSekolah,
+              kelas: data.kelas,
+              dateCreate: data.dateCreate,
+              userGender: data.userGender,
+              userStatus: data.userStatus,
+            );
+            return Right(user);
+          }
+          user = data;
+          return Right(user);
+        },
+      );
+    }
+    return const Left('Gagal Login');
+  }
+
+  Future<void> signOut() async {
+    await googleSignIn.signOut();
   }
 }
