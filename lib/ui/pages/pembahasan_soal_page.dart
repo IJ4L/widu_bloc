@@ -114,12 +114,12 @@ class PembahasanSoalPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
                           'Soal Nomor ${to + 1}',
                           style: blackTextStyle.copyWith(
                             fontSize: 12.sp,
@@ -127,24 +127,28 @@ class PembahasanSoalPage extends StatelessWidget {
                           ),
                           textScaleFactor: 1,
                         ),
-                        SizedBox(height: 22.h),
-                        BlocBuilder<SoalBloc, SoalState>(
-                          builder: (context, state) {
-                            if (state is SoalLoading) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ShimmerCostume(height: 12.sp, width: 80.w),
-                                  SizedBox(height: 22.h),
-                                  ShimmerCostume(height: 12.sp, width: 80.w),
-                                  SizedBox(height: 22.h),
-                                  ShimmerCostume(height: 30.sp, width: 140.w),
-                                ],
-                              );
-                            }
-                            if (state is LoadPembahasan) {
-                              final data = state.allPembahasan[to];
-                              return Column(
+                      ),
+                      SizedBox(height: 22.h),
+                      BlocBuilder<SoalBloc, SoalState>(
+                        builder: (context, state) {
+                          if (state is SoalLoading) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ShimmerCostume(height: 12.sp, width: 80.w),
+                                SizedBox(height: 22.h),
+                                ShimmerCostume(height: 12.sp, width: 80.w),
+                                SizedBox(height: 22.h),
+                                ShimmerCostume(height: 30.sp, width: 140.w),
+                              ],
+                            );
+                          }
+                          if (state is LoadPembahasan) {
+                            final data = state.allPembahasan[to];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   data.questionTitle != ''
@@ -189,14 +193,14 @@ class PembahasanSoalPage extends StatelessWidget {
                                           ),
                                   ),
                                 ],
-                              );
-                            }
-                            return Container();
-                          },
-                        ),
-                        SizedBox(height: 32.h),
-                      ],
-                    ),
+                              ),
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                      SizedBox(height: 32.h),
+                    ],
                   ),
                 ],
               );

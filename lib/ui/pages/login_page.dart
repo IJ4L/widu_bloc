@@ -78,10 +78,24 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
             builder: (context, state) {
+              if (state is LoadingAuth) {
+                return const AlertDialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  content: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              }
+
               return CostumeButton(
                 title: 'Login With Google',
                 fontWeight: bold,
-                ontap: () => context.read<AuthBloc>().add(LoggedInEvent()),
+                ontap: () {
+                  context.read<AuthBloc>().add(LoggedInEvent());
+                },
               );
             },
           ),

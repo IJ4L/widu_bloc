@@ -46,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(LoadingAuth());
       final result = await authServices.autoLogin();
 
-      result.fold((notUse) => null, (data) {
+      result.fold((message) => emit(Unauthenticated(message)), (data) {
         emit(Authenticated(data));
       });
     });
