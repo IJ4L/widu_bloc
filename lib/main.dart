@@ -11,6 +11,7 @@ import 'package:widyaedu/bloc/mapel_bloc/mapel_bloc.dart';
 import 'package:widyaedu/bloc/next_bloc.dart';
 import 'package:widyaedu/bloc/paket_soal_bloc/paket_soal_bloc.dart';
 import 'package:widyaedu/bloc/soal_bloc/soal_bloc.dart';
+import 'package:widyaedu/bloc/viewinset_bloc.dart';
 import 'package:widyaedu/services/auth_service.dart';
 import 'package:widyaedu/services/banner_service.dart';
 import 'package:widyaedu/services/latihan_soal_service.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => GenderBloc()),
           BlocProvider(create: (context) => ChangeBloc()),
           BlocProvider(create: (context) => ChoiceBloc()),
+          BlocProvider(create: (context) => ViewSet()),
           BlocProvider(
             create: (context) => AuthBloc(
               authServices: AuthServices(client: http.Client()),
