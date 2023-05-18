@@ -13,8 +13,8 @@ class AuthServices {
   final http.Client client;
   AuthServices({required this.client});
 
-  final String userBaseUrl = 'https://edspert.widyaedu.com/users';
-  final String apiKeyUser = '18be70c0-4e4d-44ff-a475-50c51ece99a0';
+  final String userBaseUrl = 'Your-api';
+  final String apiKeyUser = 'Key-api';
 
   GoogleSignIn googleSignIn = GoogleSignIn();
   GoogleSignInAccount? currentUser;
