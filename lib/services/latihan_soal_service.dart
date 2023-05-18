@@ -13,8 +13,8 @@ class LatihanSoalService {
   final http.Client client;
   LatihanSoalService({required this.client});
 
-  final String apiKey = '18be70c0-4e4d-44ff-a475-50c51ece99a0';
-  final String baseUrl = 'https://edspert.widyaedu.com/exercise';
+  final String apiKey = 'Your-api';
+  final String baseUrl = 'Key-api';
 
   Future<Either<String, List<MapelModel>>> getAllMapel(String email) async {
     final response = await client.get(
