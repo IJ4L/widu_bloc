@@ -8,8 +8,8 @@ class BannerService {
   final http.Client client;
   BannerService({required this.client});
 
-  final String bannerBaseUrl = 'https://api.widyaedu.com/event/list';
-  final String apiKeyBanner = '18be70c0-4e4d-44ff-a475-50c51ece99a3';
+  final String bannerBaseUrl = 'Your-api';
+  final String apiKeyBanner = 'Key-api';
 
   Future<Either<String, List<BannerModel>>> getAllBanner() async {
     final response = await client.get(
